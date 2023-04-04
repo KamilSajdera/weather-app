@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App - check weather near you</title>
+   
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="shortcut icon" href="img/titleIcon.webp">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+
+    <script src="https://kit.fontawesome.com/3baf2f3ead.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <main class="wrapper">
+
+        <section class="summaryLeft" data-aos="fade-right" data-aos-duration="1000">
+                <div class="searchCity">
+                    <i class="fas fa-search"></i>
+                    <div id="cityLists">
+                            <input type="text" id="inputSearchCity" placeholder="Search for place">
+                            <ul id="city-items">
+                                
+                            </ul>
+                    </div>
+                    <i class="fas fa-map-marker-alt" id="getUsrLocation"></i>
+                </div>
+
+
+                <div class="mainInfo">
+                        <div class="s_weatherIcon">
+                            <img src="img/sunWithClouds.webp" alt="sun behind clouds">
+                        </div>
+
+                        <div class="s_degrees">
+                            <h1></h1>
+                        </div>
+
+                        <div class="s_date">
+                            <h2></h2>
+                            <h3></h3>
+                        </div>
+                </div>
+
+
+                <div class="descOfDay">
+                    <p id="chanceDesc"><i class="fa-solid fa-cloud"></i> Patchy Drizzle Day </p>
+                    <p id="chancePercent"><i class="far fa-clock"></i> 16:30 </p>
+                </div>
+
+        </section>
+
+
+
+        <section class="container">
+                <h1 data-aos="zoom-in-right" data-aos-duration="1000">Whethersa</h1>
+                <div class="settings" data-aos="fade-down" data-aos-duration="1000">
+                    <button id="celsius" class="deg_active">°C</button>
+                    <button id="farenheit">°F</button>
+                    <button id="btn_darkMode"><i class="fa-regular fa-moon"></i></button>
+                </div>
+
+
+
+                <div class="long-term-wrapper">
+
+                        <div class="long-term-item" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="100">
+                            <h4>Tue</h4>
+                            <img src="img/rainly.png">
+                            <p class="long-term-temperature"></p>
+                        </div>
+
+                        <div class="long-term-item" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="200">
+                            <h4>Wed</h4>
+                            <img src="img/cloudly.png">
+                            <p class="long-term-temperature"></p>
+                        </div>
+
+                        <div class="long-term-item" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="300">
+                            <h4>Thu</h4>
+                            <img src="img/storm.png">
+                            <p class="long-term-temperature"></p>
+                        </div>
+
+                        <div class="long-term-item" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="100">
+                            <h4>Fri</h4>
+                            <img src="img/sun.png">
+                            <p class="long-term-temperature"></p>
+                        </div>
+
+                        <div class="long-term-item" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="200">
+                            <h4>Sat</h4>
+                            <img src="img/rainSun.png">
+                            <p class="long-term-temperature"></p>
+                        </div>
+
+                        <div class="long-term-item" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="300">
+                            <h4>Sun</h4>
+                            <img src="img/sun.png">
+                            <p class="long-term-temperature"></p>
+                        </div>
+
+
+                </div>
+
+
+
+
+                <div class="todaysHighlights">
+                        <h3 data-aos="flip-up" data-aos-duration="1000" data-aos-delay="850"> Today's Highlights</h3>
+
+                        <div class="high-wrap">
+                                <div class="highlight-item" data-aos="zoom-in-down" data-aos-duration="1000" data-aos-delay="900">
+                                        <h4>UV Index</h4>
+                                        <img src="img/uv.png" alt="uv index">
+                                        <div class="uv-numbers">
+                                            
+                                        </div>
+                                </div>
+
+
+                                <div class="highlight-item" data-aos="zoom-in-down" data-aos-duration="1000" data-aos-delay="950">
+                                    <h4>Wind Status</h4>
+                                    <h1 id="windspeed"></h1><span style="color: #454545; font-size: 1.2em;">km/h</span> <br />
+                                    <img src="img/wind.png" alt="wind status" class="windAnimate">
+                                </div>
+
+
+                                <div class="highlight-item" data-aos="zoom-in-down" data-aos-duration="1000" data-aos-delay="1050">
+                                    <h4>Sunrise & Sunset</h4>
+                                    <div class="sunrise">
+                                        <img src="img/sun.png"> 
+                                        <span id="h_sunrise"></span>
+                                    </div>
+
+                                    <div class="sunset">
+                                        <img src="img/moon.png"> 
+                                        <span id="h_sunset"></span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="highlight-item" data-aos="zoom-in-down" data-aos-duration="1000" data-aos-delay="900">
+                                    <h4>Humidity</h4>
+                                    <h1></h1>
+                                    <p class="no-data"> <i class='fa fa-wifi'></i> No data </p>
+                                </div>
+
+                                <div class="highlight-item" data-aos="zoom-in-down" data-aos-duration="1000" data-aos-delay="950">
+                                    <h4>Visibility</h4>
+                                    <h1><sup style="font-size: 30px;">km</sup></h1>
+                                    <p class="no-data"> <i class='fa fa-wifi'></i> No data </p>
+                                </div>
+
+                                <div class="highlight-item" data-aos="zoom-in-down" data-aos-duration="1000" data-aos-delay="1150">
+                                    <h4>Sealevel Pressure</h4>
+                                    <h1></h1>
+                                    <p class="no-data"> <i class='fa fa-wifi'></i> No data </p>
+                                </div>
+                        </div>
+
+
+                </div>
+        </section>
+
+
+    </main>
+
+
+
+
+
+    <script src="script.js"></script>
+    
+</body>
+</html>
