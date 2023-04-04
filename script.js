@@ -4,7 +4,7 @@ AOS.init({
 });
 
 const inputSearchCity = document.getElementById("inputSearchCity");
-const endpoint = "https://api.geonames.org/searchJSON?name_startsWith=";
+const endpoint = "https://secure.geonames.org/searchJSON?name_startsWith=";
 let cityList;
 let cityDetails;
 
@@ -481,7 +481,7 @@ document.querySelector("#getUsrLocation").addEventListener('click', () => {
     if(geo) {
     geo.getCurrentPosition(function(location) {
 
-        fetch(`https://api.geonames.org/findNearbyJSON?lat=${location.coords.latitude}&lng=${location.coords.longitude}&username=saydi`)
+        fetch(`https://secure.geonames.org/findNearbyJSON?lat=${location.coords.latitude}&lng=${location.coords.longitude}&username=saydi`)
         .then(response => response.json())
         .then(data => {
             setCity(data.geonames[0].name, location.coords.latitude, location.coords.longitude)
