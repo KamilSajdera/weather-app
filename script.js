@@ -4,13 +4,14 @@ AOS.init({
 });
 
 const inputSearchCity = document.getElementById("inputSearchCity");
-const endpoint = "https://api.geonames.org/searchJSON?name_startsWith=";
+const endpoint = "https://secure.geonames.org/searchJSON?name_startsWith=";
 let cityList;
 let cityDetails;
 
 const datalist = document.getElementById("city-items");
 let zdj = document.querySelectorAll("img");
 let defaultChecks = document.querySelectorAll(".checkDefault")
+const loadWrapper = document.getElementById("load")
 
 let darkMode = false,
     farenheit = false;
@@ -19,6 +20,7 @@ let currentLat,
     currentLng;
 
 let degUnit;
+let isLoading = false;
 
 
 let date = new Date();
@@ -69,22 +71,19 @@ document.addEventListener("DOMContentLoaded", () => {
     setTheme(darkMode)
     
     setInterval(() => {
-        for(let i = 0; i < zdj.length; i++)
-        {
+        for(let i = 0; i < zdj.length; i++) {
             if(i==8)
                 return;
                 
             animateWeatherIcons(i)
         }
-    }, 0200);
+    }, 200);
    
-
     document.querySelector(".s_date h3").innerHTML = `${weekdays[date.getDay()]}, <span style="color: #a5a5a5eb;"> ${months[date.getMonth()]} ${date.getDate()}</span>`;
 
 });
 
-function animateWeatherIcons(i)
-{
+function animateWeatherIcons(i) {
         zdj[i].className = "";
 
         if (zdj[i].getAttribute("src") == "img/sun.png") 
@@ -103,9 +102,7 @@ function animateWeatherIcons(i)
 
 
 document.querySelector("#btn_darkMode").addEventListener('click', () => {
-
     darkMode = !darkMode;
-   
     setTheme(darkMode)
 })
 
@@ -113,13 +110,10 @@ document.getElementById("farenheit").addEventListener('click', () => {
     
     farenheit = true;
    
-    if(!darkMode)
-    {
+    if(!darkMode) {
         document.getElementById("celsius").classList.remove("deg_active")
         document.getElementById("farenheit").classList.add("deg_active")
-    }
-    else 
-    {
+    } else {
         document.getElementById("celsius").classList.remove("deg_activeDark")
         document.getElementById("farenheit").classList.add("deg_activeDark")
     }
@@ -129,19 +123,15 @@ document.getElementById("farenheit").addEventListener('click', () => {
 
 document.getElementById("celsius").addEventListener('click', () => {
     
-    if(!darkMode)
-    {
+    if(!darkMode) {
         document.getElementById("farenheit").classList.remove("deg_active")
         document.getElementById("celsius").classList.add("deg_active")
-    }
-    else 
-    {
+    } else {
         document.getElementById("farenheit").classList.remove("deg_activeDark")
         document.getElementById("celsius").classList.add("deg_activeDark")
     }
 
     farenheit = false;
-
     setCity(document.querySelector(".s_date h2").innerHTML, currentLat, currentLng)
 })
 
@@ -149,16 +139,15 @@ inputSearchCity.addEventListener('input', async () => {
     const inputValue = inputSearchCity.value.trim().toLowerCase();
     
     if (inputValue.length < 3) {
-        datalist.style.display="none";
+        datalist.style.display = "none";
         return;
     }
 
-    datalist.style.display="block";
+    datalist.style.display = "block";
     
     try {
         const response = await fetch(endpoint + inputValue + "&maxRows=7&username=saydi");
         const cities = await response.json();
-
 
         cityList = cities.geonames.map(city => {
             return {
@@ -171,13 +160,14 @@ inputSearchCity.addEventListener('input', async () => {
           });
 
         datalist.innerHTML = "";
-        for(let i=0; i < cityList.length; i++)
-        {
+        for(let i=0; i < cityList.length; i++) {
             let li = document.createElement("li")
             let formatCity = document.createTextNode(cityList[i].name)
             li.appendChild(formatCity);
 
             li.addEventListener('click', () => {
+                isLoading = true;
+                loadingPageHandler();
                 setCity(cityList[i].name, cityList[i].latitude, cityList[i].longitude)
             })
 
@@ -185,8 +175,7 @@ inputSearchCity.addEventListener('input', async () => {
                 li.innerHTML = `<b>  ${li.innerHTML.substring(0, inputValue.length)}</b>${li.innerHTML.substring(inputValue.length)}
                                 <div class="detailsCity"> ${cityList[i].country} </div>     
                                 <div class="checkDefault" onclick="setDefault(${cityList[i].latitude}, ${cityList[i].longitude})"><i class="fa fa-check" aria-hidden="true"></i></div>`; 
-            else 
-            {
+            else {
                 li.innerHTML = `<b>  ${li.innerHTML.substring(0, inputValue.length)}</b>${li.innerHTML.substring(inputValue.length)} <div class="detailsCity"> ${cityList[i].voivodeship}, ${cityList[i].country} </div><div class="checkDefault" onclick="setDefault(${cityList[i].latitude}, ${cityList[i].longitude})"><i class="fa fa-check" aria-hidden="true"><div class="zmn">Save as default</div></i>
                 </div>`;     
             }   
@@ -204,8 +193,20 @@ inputSearchCity.addEventListener('input', async () => {
 });
 
 
-function setCity(name, lat, lng)
-{
+function loadingPageHandler() {
+    let timerId = setInterval(() => {
+        if(!isLoading) {
+            loadWrapper.style.display = "none";
+            clearInterval(timerId);
+        } 
+        else {
+            loadWrapper.style.display = "block";
+        }
+    }, 1000/120);
+}
+
+
+function setCity(name, lat, lng) {
 
     datalist.innerHTML = "";
     document.querySelector(".uv-numbers").innerHTML = "";
@@ -218,13 +219,10 @@ function setCity(name, lat, lng)
 
     let temp_unit = "";
 
-    if(farenheit)
-    {
+    if(farenheit) {
         temp_unit = "&temperature_unit=fahrenheit";
         degUnit = "°F";
-    }
-    else 
-    {
+    } else {
         temp_unit = "";
         degUnit = "°C";
     }
@@ -234,7 +232,7 @@ function setCity(name, lat, lng)
     fetch(endpointWeather)
     .then(response => response.json())
     .then(data => { 
-
+            isLoading = false;
             document.querySelector(".s_degrees h1").innerHTML = data.current_weather.temperature + `<sup>${degUnit}</sup>`;
             document.querySelector("#windspeed").innerHTML = data.current_weather.windspeed;
             document.querySelector("#h_sunrise").innerHTML = data.daily.sunrise[0].substring(11) + " AM"
@@ -260,21 +258,63 @@ function setCity(name, lat, lng)
 
             document.getElementById("chancePercent").innerHTML = `<i class='fa fa-pie-chart'></i> ${data.daily.precipitation_probability_max[0]}% </p>`;
 
-                    for(let i = 0; i<=5; i++)
-                    {
-                        if(!farenheit)
-                        {
-                            switch(data.daily.weathercode[i]) {
+                for(let i = 0; i<=5; i++) {
+                    if(!farenheit) {
+                        switch(data.daily.weathercode[i]) {
+                            case 0:
+                                nextDaysIcon[i].setAttribute('src', 'img/sun.png');
+                                break;
+                            case 1:
+                            case 2:
+                                nextDaysIcon[i].setAttribute('src', 'img/sunWithClouds.webp');
+                                break;
+                            case 45:
+                            case 48:
+                                nextDaysIcon[i].setAttribute('src', 'img/fog.png');
+                                break;
+                            case 53:
+                            case 55:
+                            case 56:
+                            case 57:
+                            case 61:
+                            case 63:
+                            case 65:
+                            case 66:
+                            case 67:
+                                nextDaysIcon[i].setAttribute('src', 'img/rainly.png');
+                                break;
+                            case 71:
+                            case 73:
+                            case 75:
+                            case 77:
+                            case 85:
+                            case 86:
+                                nextDaysIcon[i].setAttribute('src', 'img/snow.png');
+                                break;
+                            case 95:
+                            case 96:
+                            case 99:
+                                nextDaysIcon[i].setAttribute('src', 'img/storm.png');
+                                break;
+                            default:
+                                nextDaysIcon[i].setAttribute('src', 'img/cloudly.png');
+                        }
+
+
+                        if(date.getHours() >= 22)
+                            document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/night.png" alt="moon">`;
+                        else {
+                            switch(data.current_weather.weathercode) {
                                 case 0:
-                                    nextDaysIcon[i].setAttribute('src', 'img/sun.png');
+                                    document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/sun.png" alt="sun">`;
                                     break;
                                 case 1:
                                 case 2:
-                                    nextDaysIcon[i].setAttribute('src', 'img/sunWithClouds.webp');
+                                    document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/sunWithClouds.webp" alt="sun and clouds">`;
                                     break;
                                 case 45:
                                 case 48:
-                                    nextDaysIcon[i].setAttribute('src', 'img/fog.png');
+                                    document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/fog.png" alt="fog">`;
                                     break;
                                 case 53:
                                 case 55:
@@ -285,7 +325,7 @@ function setCity(name, lat, lng)
                                 case 65:
                                 case 66:
                                 case 67:
-                                    nextDaysIcon[i].setAttribute('src', 'img/rainly.png');
+                                    document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/rainly.png" alt="rainly">`; 
                                     break;
                                 case 71:
                                 case 73:
@@ -293,64 +333,19 @@ function setCity(name, lat, lng)
                                 case 77:
                                 case 85:
                                 case 86:
-                                    nextDaysIcon[i].setAttribute('src', 'img/snow.png');
+                                    document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/snow.png" alt="snow">`;
                                     break;
                                 case 95:
                                 case 96:
                                 case 99:
-                                    nextDaysIcon[i].setAttribute('src', 'img/storm.png');
+                                    document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/storm.png" alt="storm">`;
                                     break;
                                 default:
-                                    nextDaysIcon[i].setAttribute('src', 'img/cloudly.png');
+                                    document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/cloudly.png" alt="cloudly">`;
                             }
+                        }
 
-
-                            if(date.getHours() >= 22)
-                                document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/night.png" alt="moon">`;
-                            else 
-                            {
-                                switch(data.current_weather.weathercode) {
-                                    case 0:
-                                        document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/sun.png" alt="sun">`;
-                                        break;
-                                    case 1:
-                                    case 2:
-                                        document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/sunWithClouds.webp" alt="sun and clouds">`;
-                                        break;
-                                    case 45:
-                                    case 48:
-                                        document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/fog.png" alt="fog">`;
-                                        break;
-                                    case 53:
-                                    case 55:
-                                    case 56:
-                                    case 57:
-                                    case 61:
-                                    case 63:
-                                    case 65:
-                                    case 66:
-                                    case 67:
-                                        document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/rainly.png" alt="rainly">`; 
-                                        break;
-                                    case 71:
-                                    case 73:
-                                    case 75:
-                                    case 77:
-                                    case 85:
-                                    case 86:
-                                        document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/snow.png" alt="snow">`;
-                                        break;
-                                    case 95:
-                                    case 96:
-                                    case 99:
-                                        document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/storm.png" alt="storm">`;
-                                        break;
-                                    default:
-                                        document.querySelector(`.s_weatherIcon`).innerHTML = `<img src="img/cloudly.png" alt="cloudly">`;
-                                }
-                            }
-
-                            animateWeatherIcons(i)
+                        animateWeatherIcons(i)
                         
                         }
                     
@@ -368,110 +363,96 @@ function setCity(name, lat, lng)
             
             if(Math.round(data.daily.uv_index_max[0]) == 0)
                 document.querySelector(".uv-numbers").innerHTML = "1";
-            else 
-            {
-                    let rozm = 1.1;
-                    let opac = 0.1;
+            else {
+                let rozm = 1.1;
+                let opac = 0.1;
 
-                    let currentUvIndex = Math.round(data.daily.uv_index_max[0])
+                let currentUvIndex = Math.round(data.daily.uv_index_max[0])
 
-                    for(let i=currentUvIndex-3; i<=currentUvIndex; i++)
-                    {
-                            if(i==currentUvIndex)
-                            {
-                                document.querySelector(".uv-numbers").innerHTML += `<span style="font-weight: 700; font-size: 1.55em;">${currentUvIndex}</span>`;
-                                
-                                /// loop for growing number in uv index
-                                for(let j = currentUvIndex+1; j < currentUvIndex+4; j++)
-                                {
-                                    rozm-=0.1
-                                    opac-=0.1
-                                    document.querySelector(".uv-numbers").innerHTML += `<span style="font-size: ${rozm}em; opacity: ${opac}">${j}</span>`;  
-                                }
-                                
-                            }
-
-                            /// descent numbers in uv index
-                            else 
-                                document.querySelector(".uv-numbers").innerHTML += `<span style="font-size: ${rozm}em; opacity: ${opac}">${currentUvIndex - (currentUvIndex-i)}</span>`;
-                        
-
-                            opac+=0.1
-                            rozm+=0.1;
-                    }
+                for(let i=currentUvIndex-3; i<=currentUvIndex; i++) {
+                        if(i==currentUvIndex) {
+                            document.querySelector(".uv-numbers").innerHTML += `<span style="font-weight: 700; font-size: 1.55em;">${currentUvIndex}</span>`;
+                            
+                            /// loop for growing number in uv index
+                            for(let j = currentUvIndex+1; j < currentUvIndex+4; j++) {
+                                rozm-=0.1
+                                opac-=0.1
+                                document.querySelector(".uv-numbers").innerHTML += `<span style="font-size: ${rozm}em; opacity: ${opac}">${j}</span>`;  
+                            }   
+                        }
+                        /// descent numbers in uv index
+                        else 
+                            document.querySelector(".uv-numbers").innerHTML += `<span style="font-size: ${rozm}em; opacity: ${opac}">${currentUvIndex - (currentUvIndex-i)}</span>`;
+                    
+                        opac+=0.1
+                        rozm+=0.1;
+                }
             }
     });
 }
 
 
-
-function setDefault(lat, lng)
-{
+function setDefault(lat, lng) {
     setTimeout(() => {
         localStorage.setItem("defaultName", `${document.querySelector(".s_date h2").innerHTML}`)
         localStorage.setItem("defaultLat", `${lat}`)
         localStorage.setItem("defaultLng", `${lng}`)
-    }, 0150);
+    }, 150);
     
 }
 
-function setTheme(dark)
-{
+function setTheme(dark) {
 
     let list = document.querySelectorAll(".long-term-item");
     let list2 = document.querySelectorAll(".highlight-item");
 
-    if(dark)
-    {
-            document.querySelector("body").classList.add("dark");
-            document.querySelector(".searchCity").classList.add("dark")
-            document.querySelector("#inputSearchCity").classList.add("dark")
-            document.querySelector(".summaryLeft").classList.add("darkSummary");
+    if(dark) {
+        document.querySelector("body").classList.add("dark");
+        document.querySelector(".searchCity").classList.add("dark")
+        document.querySelector("#inputSearchCity").classList.add("dark")
+        document.querySelector(".summaryLeft").classList.add("darkSummary");
 
-            document.querySelector("#city-items").classList.add('darkSearch');
-            
-            for (let i = 0; i < list.length; ++i) {
-                list[i].classList.add('darkSearch');
-            }
-
-            for (let i = 0; i < list2.length; ++i) {
-                list2[i].classList.add('darkSearch');
-            }
-
-            document.getElementById("celsius").classList.add("darkBtn");
-            document.getElementById("farenheit").classList.add("darkBtn");
-            document.getElementById("btn_darkMode").innerHTML = `<span style="color: #fff";><i class="fa fa-sun-o" aria-hidden="true"></i></span>`;
-
-            document.querySelector(".windAnimate").setAttribute("src", "img/wind-light.png")
-
-            localStorage.setItem("theme", "1");
+        document.querySelector("#city-items").classList.add('darkSearch');
+        
+        for (let i = 0; i < list.length; ++i) {
+            list[i].classList.add('darkSearch');
         }
 
-        else 
-        {
-            document.querySelector("body").classList.remove("dark");
-            document.querySelector(".searchCity").classList.remove("dark")
-            document.querySelector("#inputSearchCity").classList.remove("dark")
-            document.querySelector(".summaryLeft").classList.remove("darkSummary");
-
-            document.querySelector("#city-items").classList.remove('darkSearch');
-
-            for (let i = 0; i < list.length; ++i) {
-                list[i].classList.remove('darkSearch');
-            }
-
-            for (let i = 0; i < list2.length; ++i) {
-                list2[i].classList.remove('darkSearch');
-            }
-
-            document.getElementById("celsius").classList.remove("darkBtn");
-            document.getElementById("farenheit").classList.remove("darkBtn");
-            document.getElementById("btn_darkMode").innerHTML = `<span style="color: #000";><i class="fa-regular fa-moon"></i></span>`;
-
-            document.querySelector(".windAnimate").setAttribute("src", "img/wind.png");
-
-            localStorage.setItem("theme", "0");
+        for (let i = 0; i < list2.length; ++i) {
+            list2[i].classList.add('darkSearch');
         }
+
+        document.getElementById("celsius").classList.add("darkBtn");
+        document.getElementById("farenheit").classList.add("darkBtn");
+        document.getElementById("btn_darkMode").innerHTML = `<span style="color: #fff";><i class="fa fa-sun-o" aria-hidden="true"></i></span>`;
+
+        document.querySelector(".windAnimate").setAttribute("src", "img/wind-light.png")
+
+        localStorage.setItem("theme", "1");
+    }
+
+    else {
+        document.querySelector("body").classList.remove("dark");
+        document.querySelector(".searchCity").classList.remove("dark")
+        document.querySelector("#inputSearchCity").classList.remove("dark")
+        document.querySelector(".summaryLeft").classList.remove("darkSummary");
+
+        document.querySelector("#city-items").classList.remove('darkSearch');
+
+        for (let i = 0; i < list.length; ++i) 
+            list[i].classList.remove('darkSearch');
+
+        for (let i = 0; i < list2.length; ++i) 
+            list2[i].classList.remove('darkSearch');
+        
+        document.getElementById("celsius").classList.remove("darkBtn");
+        document.getElementById("farenheit").classList.remove("darkBtn");
+        document.getElementById("btn_darkMode").innerHTML = `<span style="color: #000";><i class="fa-regular fa-moon"></i></span>`;
+
+        document.querySelector(".windAnimate").setAttribute("src", "img/wind.png");
+
+        localStorage.setItem("theme", "0");
+    }
         
 }
 
@@ -479,16 +460,15 @@ document.querySelector("#getUsrLocation").addEventListener('click', () => {
     var geo = navigator.geolocation;
 
     if(geo) {
-    geo.getCurrentPosition(function(location) {
+        geo.getCurrentPosition(function(location) {
 
-        fetch(`https://api.geonames.org/findNearbyJSON?lat=${location.coords.latitude}&lng=${location.coords.longitude}&username=saydi`)
-        .then(response => response.json())
-        .then(data => {
-            setCity(data.geonames[0].name, location.coords.latitude, location.coords.longitude)
-        })
-    });
-    }
-    else {
+            fetch(`https://secure.geonames.org/findNearbyJSON?lat=${location.coords.latitude}&lng=${location.coords.longitude}&username=saydi`)
+            .then(response => response.json())
+            .then(data => {
+                setCity(data.geonames[0].name, location.coords.latitude, location.coords.longitude)
+            })
+        });
+    } else {
         alert("Can't get location!");
     }
 })
