@@ -194,15 +194,14 @@ inputSearchCity.addEventListener('input', async () => {
 
 
 function loadingPageHandler() {
+    loadWrapper.style.display = "block";
+
     let timerId = setInterval(() => {
         if(!isLoading) {
             loadWrapper.style.display = "none";
             clearInterval(timerId);
         } 
-        else {
-            loadWrapper.style.display = "block";
-        }
-    }, 1000/120);
+    }, 100);
 }
 
 
