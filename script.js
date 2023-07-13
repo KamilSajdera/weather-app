@@ -69,15 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
         darkMode = true;
 
     setTheme(darkMode)
-    
-    setInterval(() => {
-        for(let i = 0; i < zdj.length; i++) {
-            if(i==8)
-                return;
-                
-            animateWeatherIcons(i)
-        }
-    }, 200);
    
     document.querySelector(".s_date h3").innerHTML = `${weekdays[date.getDay()]}, <span style="color: #a5a5a5eb;"> ${months[date.getMonth()]} ${date.getDate()}</span>`;
 
@@ -192,20 +183,16 @@ inputSearchCity.addEventListener('input', async () => {
     }
 });
 
-
-function loadingPageHandler() {
-    loadWrapper.style.display = "block";
-
-    let timerId = setInterval(() => {
-        if(!isLoading) {
-            loadWrapper.style.display = "none";
-            clearInterval(timerId);
-        } 
-    }, 100);
-}
-
-
 function setCity(name, lat, lng) {
+
+    setTimeout(() => {
+        for(let i = 0; i < zdj.length; i++) {
+            if(i==8)
+                continue;
+                
+            animateWeatherIcons(i)
+        }
+    }, 300);
 
     datalist.innerHTML = "";
     document.querySelector(".uv-numbers").innerHTML = "";
@@ -390,6 +377,17 @@ function setCity(name, lat, lng) {
     });
 }
 
+function loadingPageHandler() {
+    loadWrapper.style.display = "block";
+
+    let timerId = setInterval(() => {
+        if(!isLoading) {
+            loadWrapper.style.display = "none";
+            clearInterval(timerId);
+        } 
+    }, 100);
+}
+
 
 function setDefault(lat, lng) {
     setTimeout(() => {
@@ -460,7 +458,8 @@ document.querySelector("#getUsrLocation").addEventListener('click', () => {
 
     if(geo) {
         geo.getCurrentPosition(function(location) {
-
+            isLoading = true;
+            loadingPageHandler();
             fetch(`https://secure.geonames.org/findNearbyJSON?lat=${location.coords.latitude}&lng=${location.coords.longitude}&username=saydi`)
             .then(response => response.json())
             .then(data => {
