@@ -338,9 +338,9 @@ function setCity(name, lat, lng) {
                         document.querySelectorAll(`.long-term-temperature`)[i].innerHTML = `${data.daily.temperature_2m_max[i]}°<span class="nightTemperature">${data.daily.temperature_2m_min[i]}${degUnit}</span>`;
                         
                         if(date.getDay()+i>6)
-                            document.querySelectorAll(`.long-term-item h4`)[i].innerHTML = weekdays[-7+(date.getDay()+i)]
+                            document.querySelectorAll(`.long-term-item h4`)[i].innerHTML = `${weekdays[-7+(date.getDay()+i)]}  <p class="date_long_term">(${date.getDate() + i}.${date.getMonth()+1})</p>`
                         else 
-                            document.querySelectorAll(`.long-term-item h4`)[i].innerHTML = weekdays[date.getDay()+i]     
+                            document.querySelectorAll(`.long-term-item h4`)[i].innerHTML = `${weekdays[date.getDay()+i]}  <p class="date_long_term">(${date.getDate() + i}.${date.getMonth()+1})</p>`    
                 
                     }
             
