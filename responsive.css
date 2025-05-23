@@ -1,0 +1,12 @@
+@media screen and (min-width: 768px) {
+    .sidebar-header { width: 45%; font-size: 18px;}
+    .track-user { height: 35px; width: 35px; }
+
+    .main-content { width: 55%; }
+}
+
+@media screen and (min-width: 1024px) {
+    .sidebar-city-info { width: 35%; }
+    .sidebar-header { width: 90%; }
+    .main-content { width: 65%; }
+}

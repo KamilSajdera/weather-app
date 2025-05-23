@@ -1,13 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./responsive.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Vite + TS</title>
+    <script
+      src="https://kit.fontawesome.com/3baf2f3ead.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <div id="app"></div>
+    <div class="app">
+      <aside class="sidebar-city-info">
+        <header class="sidebar-header">
+          <div class="input-box">
+            <span class="search-icon"><i class="fas fa-search"></i></span>
+            <input
+              type="text"
+              placeholder="Search for place"
+              id="searching-town"
+            />
+          </div>
+          <div class="track-user"><i class="fa-solid fa-house-signal"></i></div>
+        </header>
+      </aside>
+      <main class="main-content">
+        
+      </main>
+    </div>
+
     <script type="modules" src="/src/main.ts"></script>
   </body>
 </html>

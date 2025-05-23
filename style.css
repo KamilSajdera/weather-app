@@ -1,0 +1,78 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f3f4f6;
+  color: #161616;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-city-info {
+  width: 100%;
+  background: #fff;
+}
+
+.main-content {
+    width: 100%;
+}
+
+.sidebar-header {
+  width: 85%;
+  margin: 30px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.input-box {
+  width: 85%;
+  background: #f3f4f6;
+  padding: 7px;
+  border-radius: 15px;
+}
+
+.search-icon {
+    padding-inline: 5px;
+    font-size: 0.9em;
+}
+
+.input-box input {
+    outline: none;
+    border: none;
+    padding-inline: 5px;
+    font-size: 0.85em;
+    max-width: 85%;
+    background: transparent;
+}
+
+.track-user {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  background-color: #f3f4f6;
+  border-radius: 3px;
+  line-height: 200%;
+  box-shadow: 0px 0px 6px 1px #acacac;
+  cursor: pointer;
+  transition: box-shadow 200ms ease;
+}
+
+.track-user i {
+    transition: transform 100ms ease-in-out;
+}
+
+.track-user:hover {
+    box-shadow: 0px 0px 6px 3px #acacac;
+}
+
+.track-user:hover i  {
+    transform: scale(1.2);
+}
