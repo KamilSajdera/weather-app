@@ -1,5 +1,11 @@
 @media screen and (min-width: 500px) {
     .sidebar-image { width: 50%; margin-top: -20px; }
+
+    .main-content { width: 85%; }
+    .main-header { padding-inline: 0; justify-content: space-between; }
+    .main-title { text-align: left; }
+    .main-settings { justify-content: flex-end; margin-top: 0;}
+    
 }
 
 @media screen and (min-width: 768px) {
@@ -9,9 +15,6 @@
 
     .sidebar-main,
     .sidebar-footer { width: 45%; }
-
-    .main-content { width: 55%; }
-
 }
 
 @media screen and (min-width: 1024px) {
@@ -23,7 +26,7 @@
 
     .sidebar-footer { width: 90%; }
 
-    .main-content { width: 65%; }
+    .main-content { width: 65%; padding-inline: 40px; }
 }
 
 @media screen and (min-width: 1500px) {
