@@ -1,13 +1,30 @@
+@media screen and (min-width: 500px) {
+    .sidebar-image { width: 50%; margin-top: -20px; }
+}
+
 @media screen and (min-width: 768px) {
     .sidebar-header { width: 45%; font-size: 18px;}
     .track-user { height: 35px; width: 35px; }
     .track-user-tooltip { left: -135px; }
 
+    .sidebar-main { width: 45%; }
+
     .main-content { width: 55%; }
+
 }
 
 @media screen and (min-width: 1024px) {
     .sidebar-city-info { width: 35%; }
     .sidebar-header { width: 90%; }
+
+    .sidebar-main { width: 90%; }
+    .sidebar-image { width: 60%; }
+
     .main-content { width: 65%; }
+}
+
+@media screen and (min-width: 1500px) {
+    .sidebar-city-info { width: 28%; font-size: 18px; }
+    .sidebar-degrees { font-size: 3.5em; }
+    .main-content { width: 72%; }
 }

@@ -5,6 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./responsive.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Vite + TS</title>
@@ -30,10 +36,18 @@
             <span class="track-user-tooltip">Locate your current location</span>
           </div>
         </header>
+        <template id="t-sidebar-main">
+          <main class="sidebar-main">
+            <img class="sidebar-image" src="" alt="" />
+            <div class="sidebar-degrees"></div>
+            <div class="sidebar-city-day">
+              <div class="sidebar_city"></div>
+              <div class="sidebar_day"><span class="sidebar_date"></span></div>
+            </div>
+          </main>
+        </template>
       </aside>
-      <main class="main-content">
-        
-      </main>
+      <main class="main-content"></main>
     </div>
 
     <script type="modules" src="/src/main.ts"></script>

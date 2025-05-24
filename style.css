@@ -21,7 +21,7 @@ body {
 }
 
 .main-content {
-    width: 100%;
+  width: 100%;
 }
 
 .sidebar-header {
@@ -40,17 +40,17 @@ body {
 }
 
 .search-icon {
-    padding-inline: 5px;
-    font-size: 0.9em;
+  padding-inline: 5px;
+  font-size: 0.9em;
 }
 
 .input-box input {
-    outline: none;
-    border: none;
-    padding-inline: 5px;
-    font-size: 0.85em;
-    max-width: 85%;
-    background: transparent;
+  outline: none;
+  border: none;
+  padding-inline: 5px;
+  font-size: 0.85em;
+  max-width: 85%;
+  background: transparent;
 }
 
 .track-user {
@@ -67,33 +67,86 @@ body {
 }
 
 .track-user i {
-    transition: transform 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
 }
 
 .track-user:hover {
-    box-shadow: 0px 0px 6px 3px #acacac;
+  box-shadow: 0px 0px 6px 3px #acacac;
 }
 
-.track-user:hover i  {
-    transform: scale(1.2);
-}
-
-.track-user-tooltip {
-  position: absolute;
-    top: -23px;
-    left: -120px;
-    font-size: 0.7em;
-    display: block;
-    line-height: normal;
-    white-space: nowrap;
-    background: #b9b9d0;
-    border-radius: 10px;
-    padding: 3px 8px;
-    color: #36326f;
-    opacity: 0;
-    transition: opacity 100ms ease;
+.track-user:hover i {
+  transform: scale(1.2);
 }
 
 .track-user:hover .track-user-tooltip {
   opacity: 1;
+}
+
+.track-user-tooltip {
+  position: absolute;
+  top: -23px;
+  left: -120px;
+  font-size: 0.7em;
+  display: block;
+  line-height: normal;
+  white-space: nowrap;
+  background: #b9b9d0;
+  border-radius: 10px;
+  padding: 3px 8px;
+  color: #36326f;
+  opacity: 0;
+  transition: opacity 100ms ease;
+}
+
+.sidebar-main {
+  width: 90%;
+  margin: 20px auto;
+  border-bottom: 1px solid #e2e2e2;
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  padding-bottom: 15px;
+}
+
+.sidebar-image {
+  width: 65%;
+  margin: auto;
+  text-align: center;
+  display: block;
+}
+
+.sidebar-degrees {
+  font-size: 3em;
+  margin-top: -15px;
+  font-weight: 300;
+}
+
+.sidebar-city-day {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-between;
+  font-weight: 500;
+}
+
+.sidebar_city {
+  font-size: 1.4em;
+  margin-top: 5px;
+  font-weight: 700;
+  max-width: 70%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sidebar_day {
+  font-size: 1.05em;
+  text-align: right;
+}
+
+.sidebar_date {
+  color: #878787;
+  display: block;
 }
