@@ -63,6 +63,7 @@ body {
   box-shadow: 0px 0px 6px 1px #acacac;
   cursor: pointer;
   transition: box-shadow 200ms ease;
+  position: relative;
 }
 
 .track-user i {
@@ -75,4 +76,24 @@ body {
 
 .track-user:hover i  {
     transform: scale(1.2);
+}
+
+.track-user-tooltip {
+  position: absolute;
+    top: -23px;
+    left: -120px;
+    font-size: 0.7em;
+    display: block;
+    line-height: normal;
+    white-space: nowrap;
+    background: #b9b9d0;
+    border-radius: 10px;
+    padding: 3px 8px;
+    color: #36326f;
+    opacity: 0;
+    transition: opacity 100ms ease;
+}
+
+.track-user:hover .track-user-tooltip {
+  opacity: 1;
 }
