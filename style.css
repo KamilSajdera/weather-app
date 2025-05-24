@@ -90,10 +90,10 @@ body {
   display: block;
   line-height: normal;
   white-space: nowrap;
-  background: #b9b9d0;
+  background: #3e3e3e;
   border-radius: 10px;
   padding: 3px 8px;
-  color: #36326f;
+  color: #fff;
   opacity: 0;
   transition: opacity 100ms ease;
 }

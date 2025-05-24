@@ -15,7 +15,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .sidebar-city-info { width: 35%; }
+    .sidebar-city-info { width: 35%; height: 100vh; }
     .sidebar-header { width: 90%; }
 
     .sidebar-main { width: 90%; }
