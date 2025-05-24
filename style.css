@@ -100,7 +100,7 @@ body {
 
 .sidebar-main {
   width: 90%;
-  margin: 20px auto;
+  margin: 15px auto;
   border-bottom: 1px solid #e2e2e2;
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
@@ -149,4 +149,22 @@ body {
 .sidebar_date {
   color: #878787;
   display: block;
+}
+
+.sidebar-footer {
+  width: 90%;
+  margin: auto;
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.sidebar-footer p {
+  padding: 2px 0;
+  font-size: 0.9em;
+}
+
+.sidebar-footer p i {
+  margin-right: 5px;
 }

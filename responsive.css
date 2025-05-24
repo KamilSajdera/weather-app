@@ -7,7 +7,8 @@
     .track-user { height: 35px; width: 35px; }
     .track-user-tooltip { left: -135px; }
 
-    .sidebar-main { width: 45%; }
+    .sidebar-main,
+    .sidebar-footer { width: 45%; }
 
     .main-content { width: 55%; }
 
@@ -19,6 +20,8 @@
 
     .sidebar-main { width: 90%; }
     .sidebar-image { width: 60%; }
+
+    .sidebar-footer { width: 90%; }
 
     .main-content { width: 65%; }
 }
