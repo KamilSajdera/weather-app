@@ -14,4 +14,7 @@ export interface WeatherResponse {
     precipitation_probability_max: number[];
     rain_sum: number[];
   };
+  hourly: {
+    temperature: number[];
+  }
 }

@@ -5,4 +5,5 @@ export interface SidebarData {
   chanceOfRain: number;
   imageSrc?: string;
   imageAlt?: string;
+  hourly_temp: number[];
 }

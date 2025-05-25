@@ -40,7 +40,7 @@ export class SidebarInput {
     this.templateFooter = document.getElementById(
       "t-sidebar-footer"
     ) as HTMLTemplateElement;
-    
+
     this.target = document.querySelector(
       ".sidebar-city-info"
     ) as HTMLDivElement;
@@ -94,6 +94,28 @@ export class SidebarInput {
 
     descBox.innerHTML = `<i class="fa-solid fa-cloud-rain"></i> ${this.data.description}`;
     chanceBox.innerHTML = `<i class="fa-solid fa-chart-pie"></i> ${this.data.chanceOfRain}%`;
+
+    const nearestHourlyTemp:number[] = this.data.hourly_temp.slice(0,48);
+
+    const currentTime:number = new Date().getHours();
+
+    const ul = document.createElement("ul");
+    ul.classList.add("temp-list")
+
+    for(let i = 0; i<=12; i++)
+    {
+        const li = document.createElement("li");
+        li.classList.add("temp-item")
+
+        if(currentTime+i<=24)
+            li.innerHTML = `<div class="hourly-time">${currentTime+i}:00</div><div class="hourly-temp">${nearestHourlyTemp[currentTime+i]}°C</div>`
+        else 
+           li.innerHTML = `<div class="hourly-time">${(currentTime+i)-24}:00</div><div class="hourly-temp">${nearestHourlyTemp[currentTime+i]}°C</div>`  
+        
+        ul.appendChild(li)
+    }
+
+    this.contentFooter.appendChild(ul)
   }
 
   private attach(): void {

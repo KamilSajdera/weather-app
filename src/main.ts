@@ -26,6 +26,7 @@ const sidebarData: SidebarData = {
     forecastData.daily.precipitation_probability_max[0]
   ),
   chanceOfRain: forecastData.daily.precipitation_probability_max[0],
+  hourly_temp: forecastData.hourly.temperature
 };
 
 new SidebarInput(sidebarData);
