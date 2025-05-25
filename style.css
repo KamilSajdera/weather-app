@@ -230,3 +230,41 @@ body {
   opacity: 1;
   visibility: visible;
 }
+
+.forecast-next-days {
+  width: 100%;
+  padding: 5px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forecast-item {
+  background: #fff;
+  width: 48%;
+  text-align: center;
+  padding: 10px 5px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.forecast-item img {
+  width: 70%;
+  margin-top: 10px;
+}
+
+.item-date {
+  color: #838383;
+}
+
+.item-temp {
+  padding-top: 10px;
+  font-weight: 500;
+  font-size: 1.05em;
+}
+
+.temp-night {
+  color: #515152;
+  font-size: 0.85em;
+}

@@ -5,6 +5,10 @@
     .main-header { padding-inline: 0; justify-content: space-between; }
     .main-title { text-align: left; }
     .main-settings { justify-content: flex-end; margin-top: 0;}
+
+    .forecast-next-days { padding-inline: 0; }
+    .forecast-item { width: 31%; }
+    .forecast-item img { width: 65%; }
     
 }
 
@@ -15,6 +19,8 @@
 
     .sidebar-main,
     .sidebar-footer { width: 45%; }
+
+    .forecast-item { width: 23%; }
 }
 
 @media screen and (min-width: 1024px) {
@@ -29,8 +35,17 @@
     .main-content { width: 65%; padding-inline: 40px; }
 }
 
+@media screen and (min-width: 1300px) {
+    .forecast-item { width: 16%; }
+    .sidebar-city-info { width: 30%; }
+    .main-content { width: 70%; }
+}
+
 @media screen and (min-width: 1500px) {
     .sidebar-city-info { width: 28%; font-size: 18px; }
     .sidebar-degrees { font-size: 3.5em; }
     .main-content { width: 72%; }
+
+    .forecast-item { width: 15%; }
+    .forecast-item img { width: 55%; }
 }
