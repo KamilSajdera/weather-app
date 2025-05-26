@@ -23,7 +23,7 @@ export class SidebarInput {
     "December",
   ];
 
-  private weekdays:string[] = [
+  private weekdays: string[] = [
     "Sunday",
     "Monday",
     "Tuesday",
@@ -95,27 +95,34 @@ export class SidebarInput {
     descBox.innerHTML = `<i class="fa-solid fa-cloud-rain"></i> ${this.data.description}`;
     chanceBox.innerHTML = `<i class="fa-solid fa-chart-pie"></i> ${this.data.chanceOfRain}%`;
 
-    const nearestHourlyTemp:number[] = this.data.hourly_temp.slice(0,48);
+    const nearestHourlyTemp: number[] = this.data.hourly_temp.slice(0, 48);
 
-    const currentTime:number = new Date().getHours();
+    const currentTime: number = new Date().getHours();
 
-    const ul = document.createElement("ul");
-    ul.classList.add("temp-list")
+    const hourlyTempContainer = document.createElement("div");
+    hourlyTempContainer.classList.add("next-hours-temp");
 
-    for(let i = 0; i<=12; i++)
-    {
-        const li = document.createElement("li");
-        li.classList.add("temp-item")
+    for (let i = 0; i <= 12; i++) {
+      const div = document.createElement("div");
+      div.classList.add("hourly-item");
 
-        if(currentTime+i<=24)
-            li.innerHTML = `<div class="hourly-time">${currentTime+i}:00</div><div class="hourly-temp">${nearestHourlyTemp[currentTime+i]}°C</div>`
-        else 
-           li.innerHTML = `<div class="hourly-time">${(currentTime+i)-24}:00</div><div class="hourly-temp">${nearestHourlyTemp[currentTime+i]}°C</div>`  
-        
-        ul.appendChild(li)
+      if (currentTime + i <= 24)
+        div.innerHTML = `<div class="hourly-hour">${
+          currentTime + i
+        }:00</div><div class="hourly-timeline"><span class="timeline-line"></span></div><div class="hourly-temp">${
+          nearestHourlyTemp[currentTime + i]
+        }°C</div>`;
+      else
+        div.innerHTML = `<div class="hourly-hour">${
+          currentTime + i - 24
+        }:00</div><div class="hourly-timeline"><span class="timeline-line"></span></div><div class="hourly-temp">${
+          nearestHourlyTemp[currentTime + i]
+        }°C</div>`;
+
+      hourlyTempContainer.appendChild(div);
     }
 
-    this.contentFooter.appendChild(ul)
+    this.contentFooter.appendChild(hourlyTempContainer);
   }
 
   private attach(): void {
@@ -123,5 +130,38 @@ export class SidebarInput {
     fragment.appendChild(this.contentMain);
     fragment.appendChild(this.contentFooter);
     this.target.appendChild(fragment);
+  }
+
+  public createTempsAxis(): void {
+    const items = document.querySelectorAll(".hourly-item");
+
+    items.forEach((el) => el.classList.remove("last-in-row"));
+
+    items.forEach((item, i) => {
+      const timelineLine: HTMLDivElement =
+        item.querySelector(".timeline-line")!;
+
+      const nextItem = items[i + 1] as HTMLElement | undefined;
+      const thisTop = (item as HTMLElement).offsetTop;
+      const thisPosX = (item as HTMLElement).offsetLeft;
+      const nextTop = nextItem?.offsetTop;
+      const nextPosX = nextItem?.offsetLeft;
+
+      let tempAxisWidth: number = 0;
+
+      if (nextPosX) tempAxisWidth = nextPosX - thisPosX;
+
+      if (timelineLine) {
+        timelineLine.style.width = `${tempAxisWidth - 8}px`;
+      }
+
+      if (nextTop !== undefined && thisTop !== nextTop) {
+        item.classList.add("last-in-row");
+      }
+
+      if (i === items.length - 1) {
+        item.classList.add("last-in-row");
+      }
+    });
   }
 }
