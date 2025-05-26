@@ -32,3 +32,6 @@ const sidebarData: SidebarData = {
 const sidebarTemplate = new SidebarInput(sidebarData);
 sidebarTemplate.createTempsAxis();
 
+window.addEventListener("resize", () => {
+  sidebarTemplate.createTempsAxis();
+});
