@@ -4,7 +4,21 @@ import { SidebarInput } from "./ui/renderSidebar";
 import type { WeatherResponse } from "./types/weather";
 import type { SidebarData } from "./types/sidebar";
 
+
 let currentCityName: string = "Warszawa";
+
+let settingDescriptions: string[] = [
+  "Set the temperature unit to Celsius",
+  "Set the temperature unit to Fahrenheit",
+  "Light/dark mode",
+  "Save current location as default",
+];
+
+const settingsMenu: HTMLDivElement = document.querySelector(".main-settings")!;
+const settingItem: NodeListOf<HTMLDivElement> =
+  settingsMenu.querySelectorAll(".settings-item");
+const settigsPrompt: HTMLDivElement =
+  document.querySelector(".settings-tooltip")!;
 
 let forecastData = (await fetchWeather({
   latitude: 43.17,
@@ -34,4 +48,10 @@ sidebarTemplate.createTempsAxis();
 
 window.addEventListener("resize", () => {
   sidebarTemplate.createTempsAxis();
+});
+
+settingItem.forEach((item, i) => {
+  item.addEventListener("mouseover", () => {
+    settigsPrompt.textContent = settingDescriptions[i];
+  });
 });
