@@ -8,31 +8,6 @@ export class SidebarInput {
   private contentMain!: HTMLDivElement;
   private contentFooter!: HTMLDivElement;
 
-  private months: string[] = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  private weekdays: string[] = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
   constructor(private readonly data: SidebarData) {
     this.templateMain = document.getElementById(
       "t-sidebar-main"
@@ -76,16 +51,18 @@ export class SidebarInput {
     const dayBox = this.contentMain.querySelector(".sidebar_day")!;
 
     const todayDate: Date = new Date();
+    const todayWeekday: string = todayDate.toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    const currentMonth: string = todayDate.toLocaleDateString("en-US", {
+      month: "long",
+    });
 
     img.src = imageSrc;
     img.alt = imageAlt;
     degreesBox.textContent = `${degrees}°C`;
     cityBox.textContent = city;
-    dayBox.innerHTML = `${
-      this.weekdays[todayDate.getDay()]
-    } <span class="sidebar_date">${todayDate.getDate()} ${
-      this.months[todayDate.getMonth()]
-    }</span>`;
+    dayBox.innerHTML = `${todayWeekday} <span class="sidebar_date">${todayDate.getDate()} ${currentMonth}</span>`;
   }
 
   private renderFooterContent(): void {
