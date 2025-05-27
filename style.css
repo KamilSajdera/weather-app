@@ -205,6 +205,11 @@ body {
   font-size: 1.1em;
   font-family: "Lato", sans-serif;
   font-style: normal;
+  transition: background 150ms ease-in-out;
+}
+
+.settings-item:hover {
+  background: #c9c9c9;
 }
 
 .settings-item:nth-child(4) {
