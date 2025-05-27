@@ -3,6 +3,7 @@ import { SidebarInput } from "./ui/renderSidebar";
 
 import type { WeatherResponse } from "./types/weather";
 import type { SidebarData } from "./types/sidebar";
+import { ForecastNextDays } from "./ui/render-forecast-nextdays";
 
 
 let currentCityName: string = "Warszawa";
@@ -45,6 +46,8 @@ const sidebarData: SidebarData = {
 
 const sidebarTemplate = new SidebarInput(sidebarData);
 sidebarTemplate.createTempsAxis();
+
+ForecastNextDays(forecastData.daily);
 
 window.addEventListener("resize", () => {
   sidebarTemplate.createTempsAxis();
