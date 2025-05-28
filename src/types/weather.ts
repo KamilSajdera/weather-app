@@ -9,6 +9,7 @@ export interface WeatherResponse {
   longitude: number;
   current_weather: {
     temperature: number;
+    weathercode: number,
   };
   daily: {
     precipitation_probability_max: number[];
