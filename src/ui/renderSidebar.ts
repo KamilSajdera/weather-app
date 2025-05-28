@@ -1,4 +1,6 @@
+import lottie from "lottie-web";
 import { type SidebarData } from "../types/sidebar";
+import { GenerateIcon } from "./generate-weather-icon";
 
 export class SidebarInput {
   private readonly templateMain: HTMLTemplateElement;
@@ -38,17 +40,12 @@ export class SidebarInput {
   }
 
   private renderMainContent(): void {
-    const {
-      city,
-      degrees,
-      imageSrc = "./assets/sun.png",
-      imageAlt = "Weather Icon",
-    } = this.data;
+    const { city, degrees, weathercode } = this.data;
 
-    const img = this.contentMain.querySelector("img")!;
     const degreesBox = this.contentMain.querySelector(".sidebar-degrees")!;
     const cityBox = this.contentMain.querySelector(".sidebar_city")!;
     const dayBox = this.contentMain.querySelector(".sidebar_day")!;
+    const imageContainer = this.contentMain.querySelector(".sidebar-image")!;
 
     const todayDate: Date = new Date();
     const todayWeekday: string = todayDate.toLocaleDateString("en-US", {
@@ -58,11 +55,17 @@ export class SidebarInput {
       month: "long",
     });
 
-    img.src = imageSrc;
-    img.alt = imageAlt;
     degreesBox.textContent = `${degrees}°C`;
     cityBox.textContent = city;
     dayBox.innerHTML = `${todayWeekday} <span class="sidebar_date">${todayDate.getDate()} ${currentMonth}</span>`;
+
+    lottie.loadAnimation({
+      container: imageContainer,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: GenerateIcon(weathercode),
+    });
   }
 
   private renderFooterContent(): void {

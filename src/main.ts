@@ -1,10 +1,9 @@
 import { fetchWeather } from "./api/weatherApi";
 import { SidebarInput } from "./ui/renderSidebar";
+import { ForecastNextDays } from "./ui/render-forecast-nextdays";
 
 import type { WeatherResponse } from "./types/weather";
 import type { SidebarData } from "./types/sidebar";
-import { ForecastNextDays } from "./ui/render-forecast-nextdays";
-
 
 let currentCityName: string = "Warszawa";
 
@@ -37,6 +36,7 @@ function describePrecipitation(chance: number): string {
 const sidebarData: SidebarData = {
   city: currentCityName,
   degrees: forecastData.current_weather.temperature,
+  weathercode: forecastData.current_weather.weathercode,
   description: describePrecipitation(
     forecastData.daily.precipitation_probability_max[0]
   ),
