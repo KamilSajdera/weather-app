@@ -1,8 +1,14 @@
+import lottie from "lottie-web";
+import { GenerateIcon } from "./generate-weather-icon";
+
 const closestForecastContainer: HTMLDivElement = document.querySelector(
   ".forecast-next-days"
 )!;
 
 export function ForecastNextDays(data: Record<string, string[] | number[]>) {
+
+  console.log(data);
+  
 
   for (let i = 0; i < 6; i++) {
     const div = document.createElement("div");
@@ -24,6 +30,14 @@ export function ForecastNextDays(data: Record<string, string[] | number[]>) {
                         <div class="item-temp">${data.temperature_2m_max[i]}°C
                             <span class="temp-night">(${data.temperature_2m_min[i]})</span>
                         </div>`;
+                        
+    lottie.loadAnimation({
+      container: div.querySelector(".item-icon")!,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: GenerateIcon(+data.weathercode[i] as number),
+    });
 
     closestForecastContainer.appendChild(div);
   }
