@@ -259,8 +259,9 @@ body {
 }
 
 .item-icon {
-  width: 70%;
+  width: 60%;
   margin-top: 10px;
+  margin-inline: auto;
 }
 
 .item-date {
