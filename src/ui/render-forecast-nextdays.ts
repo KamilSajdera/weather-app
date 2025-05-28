@@ -20,7 +20,7 @@ export function ForecastNextDays(data: Record<string, string[] | number[]>) {
 
     div.innerHTML = `   <h4>${formatWeekday}</h4>
                         <p class="item-date">${formatDate}</p>
-                        <img src="./assets/sun.png" alt="" />
+                        <div class="item-icon"></div>
                         <div class="item-temp">${data.temperature_2m_max[i]}°C
                             <span class="temp-night">(${data.temperature_2m_min[i]})</span>
                         </div>`;
