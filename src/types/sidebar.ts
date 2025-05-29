@@ -8,3 +8,28 @@ export interface SidebarData {
   imageAlt?: string;
   hourly_temp: number[];
 }
+
+export interface CitiesApi {
+  results: [
+    {
+      components: {
+        city?: string,
+        county?: string,
+        continent: string,
+        country: string,
+        country_code: string,
+        state: string,
+      }
+      formatted: string,
+      geometry: {
+        lat: number,
+        lng: number
+      }
+    }
+  ],
+  status: {
+    code: number,
+    message: string,
+  }
+  total_results: number
+}
