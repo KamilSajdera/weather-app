@@ -40,6 +40,7 @@ body {
   background: #f3f4f6;
   padding: 7px;
   border-radius: 15px;
+  position: relative;
 }
 
 .search-icon {
@@ -327,4 +328,83 @@ body {
 .hourly-temp {
   font-style: italic;
   font-weight: 500;
+}
+
+.cities-container {
+  width: 98%;
+  background: #f1f1f1;
+  position: absolute;
+  z-index: 1;
+  top: 40px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 5px 10px;
+  font-family: "Lato", sans-serif;
+  font-optical-sizing: auto;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.cities-container h4 {
+  font-size: 0.94em;
+  font-weight: 500;
+  margin-bottom: -5px;
+}
+
+.city-item {
+  border-bottom: 1px solid #dadada;
+  padding: 5px 10px;
+  position: relative;
+  cursor: pointer;
+  transition: background 100ms ease-in-out;
+}
+
+.city-item:last-child {
+  border: none;
+}
+
+.city-item:hover {
+  background: #e4e4e4;
+}
+
+.city-item-region {
+  font-size: 0.83em;
+}
+
+.city-item-flag {
+  width: 25px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  box-shadow: 0px 0px 10px -2px #3e3e3e;
+}
+
+.loading-cities {
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.loader-cities {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #8d8d8d;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
