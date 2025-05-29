@@ -14,11 +14,16 @@ export interface CitiesApi {
     {
       components: {
         city?: string,
+        town?: string,
         county?: string,
+        village?: string,
+        suburb?: string,
         continent: string,
         country: string,
         country_code: string,
         state: string,
+        postcode?: string,
+        municipality?: string,
       }
       formatted: string,
       geometry: {
