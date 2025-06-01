@@ -344,6 +344,8 @@ body {
   display: none;
   animation-name: showCities;
   animation-duration: 200ms;
+  max-height: 320px;
+  overflow: auto;
 }
 
 @keyframes showCities {
@@ -427,3 +429,4 @@ body {
   text-align: center;
   padding: 5px;
 }
+
