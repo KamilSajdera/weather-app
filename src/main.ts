@@ -4,6 +4,7 @@ import { ForecastNextDays } from "./ui/render-forecast-nextdays";
 
 import type { WeatherResponse } from "./types/weather";
 import type { CitiesApi, SidebarData } from "./types/sidebar";
+import type { MatchedNames } from "./types/main";
 
 let currentCityName: string = "Warszawa";
 
@@ -81,37 +82,27 @@ searchCityInput.addEventListener("input", async (event) => {
 
   searchCitiesContainer.style.display = "block";
   loadingIndicator.style.display = "flex";
-  
 
   try {
     const fetchCities = await fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${inputValue}&key=1304a941dc074690a858f246327825e4&language=pl`
+      `https://api.opencagedata.com/geocode/v1/json?q=${inputValue}&key=1304a941dc074690a858f246327825e4&language=en`
     );
 
     const data: CitiesApi = await fetchCities.json();
-  
+
     while (index < data.total_results) {
+      const names = matchBestNames(
+        data.results[index].components,
+        data.results[index].formatted
+      );
+
       const div = document.createElement("div");
       div.classList.add("city-item");
       div.innerHTML = `
-                <h4>${
-                  data.results[index]?.components?.suburb ??
-                  data.results[index]?.components?.village ??
-                  data.results[index]?.components?.city ??
-                  data.results[index]?.components?.town ??
-                  data.results[index]?.components?.county ??
-                  data.results[index].formatted
-                }</h4>
-                <span class="city-item-region">${
-                  data.results[index].components.state ??
-                  data.results[index].components.postcode
-                } [${
-        data.results[index].components.postcode ??
-        data.results[index].components.municipality ??
-        data.results[index].components.city ??
-        data.results[index].components.country_code
-      }]</span>
-                
+                <h4>${names.mainName}</h4>
+                <span class="city-item-region">${names.captions
+                  .slice(0, 2)
+                  .join(", ")}</span>
                 <img
                   src="https://flagcdn.com/${
                     data.results[index]?.components.country_code
@@ -129,3 +120,84 @@ searchCityInput.addEventListener("input", async (event) => {
     loadingIndicator.style.display = "none";
   }
 });
+
+const mainNameTypeMap: Record<string, string[]> = {
+  village: ["village"],
+  hamlet: ["hamlet", "village", "locality"],
+  road: ["road", "residential", "pedestrian"],
+  city: ["city", "town"],
+  town: ["town", "city"],
+  country: ["country"],
+  mountain_range: ["mountain_range", "_normalized_city"],
+  neighbourhood: ["neighbourhood", "suburb", "city_district"],
+  restaurant: ["restaurant", "_normalized_city"],
+  point_of_interest: ["point_of_interest", "_normalized_city"],
+  monument: ["monument"],
+  peak: ["peak"],
+  building: ["building"],
+  arts_centre: ["arts_centre"],
+  community_centre: ["community_centre"],
+  pub: ["pub"],
+  hotel: ["hotel"],
+  pitch: ["pitch"],
+  county: ["county"],
+  postcode: ["village", "town", "city", "postcode"],
+  state: ["state"],
+};
+
+const captionTypeMap: Record<string, string[]> = {
+  village: ["municipality", "county", "state", "region"],
+  hamlet: ["municipality", "county", "_normalized_city", "state"],
+  road: ["village", "city", "municipality", "county", "postcode"],
+  city: ["municipality", "county", "state", "postcode"],
+  town: ["municipality", "county", "state", "postcode"],
+  country: ["continent", "political_union"],
+  mountain_range: ["municipality", "county", "state"],
+  neighbourhood: ["town", "city", "municipality", "county", "state"],
+  restaurant: ["municipality", "county", "state"],
+  point_of_interest: ["local_administrative_area", "state", "county"],
+  monument: ["_normalized_city", "state", "municipality"],
+  peak: ["county", "peak"],
+  building: ["road", "_normalized_city", "quarter"],
+  arts_centre: ["city", "state", "state_district"],
+  community_centre: ["_normalized_city", "road", "state"],
+  pub: ["road", "city", "neighbourhood", "county"],
+  hotel: ["road", "city", "neighbourhood", "county"],
+  pitch: ["road", "city", "neighbourhood", "county"],
+  county: ["state", "county"],
+  postcode: ["village", "town", "city", "postcode"],
+  state: ["country", "continent"],
+};
+
+function matchBestNames(
+  components: Record<string, string>,
+  fallback: string
+): MatchedNames {
+  const type: string = components._type;
+  let mainName: string = "";
+  let captions: string[] = [];
+
+  const preferredNames = mainNameTypeMap[type] ?? [];
+  const preferredCaptions = captionTypeMap[type] ?? [];
+
+  for (const title of preferredNames) {
+    if (components[title]) {
+      mainName =
+        type === "road" ? `ul. ${components[title]}` : components[title];
+      break;
+    }
+  }
+
+  for (const caption of preferredCaptions) {
+    if (components[caption]) {
+      captions.push(components[caption]);
+    }
+  }
+
+  if (mainName.length <= 0) mainName = fallback;
+
+  return {
+    mainName: mainName,
+    captions,
+  };
+}
