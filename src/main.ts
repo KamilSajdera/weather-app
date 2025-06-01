@@ -72,6 +72,10 @@ searchCityInput.addEventListener("input", async (event) => {
   const loadingIndicator: HTMLDivElement =
     searchCitiesContainer.querySelector(".loading-cities")!;
 
+  const p = document.createElement("p");
+  p.classList.add("no-results");
+  p.innerText = "No results found.";
+
   if (inputValue.trim().length < 3) {
     searchCitiesContainer.style.display = "none";
     return;
@@ -79,6 +83,8 @@ searchCityInput.addEventListener("input", async (event) => {
 
   const oldItems = searchCitiesContainer.querySelectorAll(".city-item");
   oldItems.forEach((item) => item.remove());
+  const oldNoResults = searchCitiesContainer.querySelector(".no-results");
+  if (oldNoResults) oldNoResults.remove();
 
   searchCitiesContainer.style.display = "block";
   loadingIndicator.style.display = "flex";
@@ -113,6 +119,10 @@ searchCityInput.addEventListener("input", async (event) => {
               `;
       searchCitiesContainer.appendChild(div);
       index++;
+    }
+
+    if (data.total_results <= 0) {
+      searchCitiesContainer.appendChild(p);
     }
   } catch (error) {
     console.error("ERROR!", error);
