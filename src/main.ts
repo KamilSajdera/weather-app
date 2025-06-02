@@ -6,6 +6,9 @@ import type { WeatherResponse } from "./types/weather";
 import type { CitiesApi, SidebarData } from "./types/sidebar";
 import type { MatchedNames } from "./types/main";
 
+let currentAbortController: AbortController | null = null;
+let activeRequests:number = 0;
+
 let currentCityName: string = "Warszawa";
 
 let settingDescriptions: string[] = [
@@ -88,14 +91,27 @@ searchCityInput.addEventListener("input", async (event) => {
 
   searchCitiesContainer.style.display = "block";
   loadingIndicator.style.display = "flex";
+  activeRequests++;
+
+  if (currentAbortController) {
+    currentAbortController.abort();
+  }
+
+  const controller = new AbortController();
+  currentAbortController = controller;
+
+  const signal = controller.signal;
 
   try {
     const fetchCities = await fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${inputValue}&key=1304a941dc074690a858f246327825e4&language=en`
+      `https://api.opencagedata.com/geocode/v1/json?q=${inputValue}&key=1304a941dc074690a858f246327825e4&language=en`,
+      { signal }
     );
 
     const data: CitiesApi = await fetchCities.json();
 
+    if (signal.aborted) return;
+    
     while (index < data.total_results) {
       const names = matchBestNames(
         data.results[index].components,
@@ -124,10 +140,14 @@ searchCityInput.addEventListener("input", async (event) => {
     if (data.total_results <= 0) {
       searchCitiesContainer.appendChild(p);
     }
+
   } catch (error) {
+    if ((error as Error).name === "AbortError") return;
     console.error("ERROR!", error);
   } finally {
-    loadingIndicator.style.display = "none";
+    activeRequests--;
+    if(activeRequests <= 0)
+      loadingIndicator.style.display = "none";
   }
 });
 
