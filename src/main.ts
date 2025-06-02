@@ -7,7 +7,7 @@ import type { CitiesApi, SidebarData } from "./types/sidebar";
 import type { MatchedNames } from "./types/main";
 
 let currentAbortController: AbortController | null = null;
-let activeRequests:number = 0;
+let activeRequests: number = 0;
 
 let currentCityName: string = "Warszawa";
 
@@ -69,58 +69,69 @@ settingItem.forEach((item, i) => {
   });
 });
 
-searchCityInput.addEventListener("input", async (event) => {
-  let index = 0;
-  const { value: inputValue } = event.target as HTMLInputElement;
-  const loadingIndicator: HTMLDivElement =
-    searchCitiesContainer.querySelector(".loading-cities")!;
+function defer<T extends (...args: any[]) => void>(fn: T, delay: number) {
+  let timeoutId: ReturnType<typeof setTimeout>;
 
-  const p = document.createElement("p");
-  p.classList.add("no-results");
-  p.innerText = "No results found.";
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), delay);
+  };
+}
 
-  if (inputValue.trim().length < 3) {
-    searchCitiesContainer.style.display = "none";
-    return;
-  }
+searchCityInput.addEventListener(
+  "input",
+  defer(async (event) => {
+    let index = 0;
+    const { value: inputValue } = event.target as HTMLInputElement;
+    const loadingIndicator: HTMLDivElement =
+      searchCitiesContainer.querySelector(".loading-cities")!;
 
-  const oldItems = searchCitiesContainer.querySelectorAll(".city-item");
-  oldItems.forEach((item) => item.remove());
-  const oldNoResults = searchCitiesContainer.querySelector(".no-results");
-  if (oldNoResults) oldNoResults.remove();
+    const p = document.createElement("p");
+    p.classList.add("no-results");
+    p.innerText = "No results found.";
 
-  searchCitiesContainer.style.display = "block";
-  loadingIndicator.style.display = "flex";
-  activeRequests++;
+    if (inputValue.trim().length < 3) {
+      searchCitiesContainer.style.display = "none";
+      return;
+    }
 
-  if (currentAbortController) {
-    currentAbortController.abort();
-  }
+    const oldItems = searchCitiesContainer.querySelectorAll(".city-item");
+    oldItems.forEach((item) => item.remove());
+    const oldNoResults = searchCitiesContainer.querySelector(".no-results");
+    if (oldNoResults) oldNoResults.remove();
 
-  const controller = new AbortController();
-  currentAbortController = controller;
+    searchCitiesContainer.style.display = "block";
+    loadingIndicator.style.display = "flex";
+    activeRequests++;
 
-  const signal = controller.signal;
+    if (currentAbortController) {
+      currentAbortController.abort();
+    }
 
-  try {
-    const fetchCities = await fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${inputValue}&key=1304a941dc074690a858f246327825e4&language=en`,
-      { signal }
-    );
+    const controller = new AbortController();
+    currentAbortController = controller;
 
-    const data: CitiesApi = await fetchCities.json();
+    const signal = controller.signal;
 
-    if (signal.aborted) return;
-    
-    while (index < data.total_results) {
-      const names = matchBestNames(
-        data.results[index].components,
-        data.results[index].formatted
+    try {
+      const fetchCities = await fetch(
+        `https://api.opencagedata.com/geocode/v1/json?q=${inputValue}&key=1304a941dc074690a858f246327825e4&language=en`,
+        { signal }
       );
 
-      const div = document.createElement("div");
-      div.classList.add("city-item");
-      div.innerHTML = `
+      const data: CitiesApi = await fetchCities.json();
+
+      if (signal.aborted) return;
+
+      while (index < data.total_results) {
+        const names = matchBestNames(
+          data.results[index].components,
+          data.results[index].formatted
+        );
+
+        const div = document.createElement("div");
+        div.classList.add("city-item");
+        div.innerHTML = `
                 <h4>${names.mainName}</h4>
                 <span class="city-item-region">${names.captions
                   .slice(0, 2)
@@ -133,23 +144,22 @@ searchCityInput.addEventListener("input", async (event) => {
                   class="city-item-flag"
                 />
               `;
-      searchCitiesContainer.appendChild(div);
-      index++;
-    }
+        searchCitiesContainer.appendChild(div);
+        index++;
+      }
 
-    if (data.total_results <= 0) {
-      searchCitiesContainer.appendChild(p);
+      if (data.total_results <= 0) {
+        searchCitiesContainer.appendChild(p);
+      }
+    } catch (error) {
+      if ((error as Error).name === "AbortError") return;
+      console.error("ERROR!", error);
+    } finally {
+      activeRequests--;
+      if (activeRequests <= 0) loadingIndicator.style.display = "none";
     }
-
-  } catch (error) {
-    if ((error as Error).name === "AbortError") return;
-    console.error("ERROR!", error);
-  } finally {
-    activeRequests--;
-    if(activeRequests <= 0)
-      loadingIndicator.style.display = "none";
-  }
-});
+  }, 200)
+);
 
 const mainNameTypeMap: Record<string, string[]> = {
   village: ["village"],
