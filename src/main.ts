@@ -43,7 +43,7 @@ function describePrecipitation(chance: number): string {
   return "Expect rain today";
 }
 
-const sidebarData: SidebarData = {
+let sidebarData: SidebarData = {
   city: currentCityName,
   degrees: forecastData.current_weather.temperature,
   weathercode: forecastData.current_weather.weathercode,
@@ -54,7 +54,7 @@ const sidebarData: SidebarData = {
   hourly_temp: forecastData.hourly.temperature,
 };
 
-const sidebarTemplate = new SidebarInput(sidebarData);
+let sidebarTemplate = new SidebarInput(sidebarData);
 sidebarTemplate.createTempsAxis();
 
 ForecastNextDays(forecastData.daily);
@@ -129,7 +129,12 @@ searchCityInput.addEventListener(
           data.results[index].formatted
         );
 
+        const { geometry } = data.results[index];
+
         const div = document.createElement("div");
+        div.addEventListener("click", () => {
+          getWeatherForUser(geometry.lat, geometry.lng, names.mainName);
+        });
         div.classList.add("city-item");
         div.innerHTML = `
                 <h4>${names.mainName}</h4>
@@ -160,6 +165,41 @@ searchCityInput.addEventListener(
     }
   }, 200)
 );
+
+async function getWeatherForUser(
+  lat: number,
+  lng: number,
+  locationName: string
+) {
+  try {
+    const newData = (await fetchWeather({
+      latitude: lat,
+      longitude: lng,
+      tempUnit: "celsius",
+    })) as WeatherResponse;
+
+    forecastData = newData;
+    currentCityName = locationName;
+
+    sidebarData = {
+      city: currentCityName,
+      degrees: forecastData.current_weather.temperature,
+      weathercode: forecastData.current_weather.weathercode,
+      description: describePrecipitation(
+        forecastData.daily.precipitation_probability_max[0]
+      ),
+      chanceOfRain: forecastData.daily.precipitation_probability_max[0],
+      hourly_temp: forecastData.hourly.temperature,
+    };
+
+    sidebarTemplate.destroy();
+    sidebarTemplate = new SidebarInput(sidebarData);
+    sidebarTemplate.createTempsAxis();
+
+    ForecastNextDays(forecastData.daily);
+    searchCitiesContainer.style.display = "none";
+  } catch {}
+}
 
 const mainNameTypeMap: Record<string, string[]> = {
   village: ["village"],
