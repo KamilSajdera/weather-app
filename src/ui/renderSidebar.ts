@@ -112,6 +112,11 @@ export class SidebarInput {
     this.target.appendChild(fragment);
   }
 
+  public destroy():void {
+    this.target.removeChild(this.contentMain);
+    this.target.removeChild(this.contentFooter);
+  }
+
   public createTempsAxis(): void {
     const items = document.querySelectorAll(".hourly-item");
 
