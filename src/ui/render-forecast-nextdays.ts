@@ -7,8 +7,7 @@ const closestForecastContainer: HTMLDivElement = document.querySelector(
 
 export function ForecastNextDays(data: Record<string, string[] | number[]>) {
 
-  console.log(data);
-  
+  closestForecastContainer.innerHTML = "";
 
   for (let i = 0; i < 6; i++) {
     const div = document.createElement("div");
