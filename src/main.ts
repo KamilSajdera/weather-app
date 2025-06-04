@@ -101,28 +101,24 @@ searchCityInput.addEventListener(
     searchCitiesContainer.style.display = "block";
     loadingIndicator.style.display = "flex";
 
-    try {
-      const data = await fetchCities(inputValue, loadingIndicator);
+    const data = await fetchCities(inputValue, loadingIndicator);
 
-      if (!data || data.total_results <= 0) {
-        searchCitiesContainer.appendChild(p);
-        return;
-      }
+    if (!data || data.total_results <= 0) {
+      searchCitiesContainer.appendChild(p);
+      return;
+    }
 
-      while (index < data.total_results) {
-        const names = matchBestNames(
-          data.results[index].components,
-          data.results[index].formatted
-        );
+    data.results.forEach((item) => {
+      const names = matchBestNames(item.components, item.formatted);
 
-        const { geometry } = data.results[index];
+      const { geometry } = item;
 
-        const div = document.createElement("div");
-        div.addEventListener("click", () => {
-          getWeatherForUser(geometry.lat, geometry.lng, names.mainName);
-        });
-        div.classList.add("city-item");
-        div.innerHTML = `
+      const div = document.createElement("div");
+      div.addEventListener("click", () => {
+        getWeatherForUser(geometry.lat, geometry.lng, names.mainName);
+      });
+      div.classList.add("city-item");
+      div.innerHTML = `
                 <h4>${names.mainName}</h4>
                 <span class="city-item-region">${names.captions
                   .slice(0, 2)
@@ -135,13 +131,8 @@ searchCityInput.addEventListener(
                   class="city-item-flag"
                 />
               `;
-        searchCitiesContainer.appendChild(div);
-        index++;
-      }
-    } catch (error) {
-      if ((error as Error).name === "AbortError") return;
-      console.error("ERROR!", error);
-    }
+      searchCitiesContainer.appendChild(div);
+    });
   }, 200)
 );
 
