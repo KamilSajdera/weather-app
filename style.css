@@ -454,3 +454,34 @@ body {
   padding: 5px;
 }
 
+.current-weather-container {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.current-weather-container h3 {
+  width: 100%;
+}
+
+.current-weather-item {
+  background: #fff;
+  width: 25%;
+  text-align: center;
+  margin-top: 15px;
+  border-radius: 10px;
+  height: 180px;
+  padding: 10px 15px;
+}
+
+.current-weather-item h4 {
+  font-weight: 600;
+  text-align: left;
+  color: #838383;
+}
+
+.current-weather-item svg {
+  width: 90%!important;
+}
+
