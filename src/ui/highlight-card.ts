@@ -31,6 +31,19 @@ export function createCard(
     case "UV Index": {
       card.appendChild(cardIcon);
       card.appendChild(renderUv(+data));
+      break;
+    }
+    case "Wind Status": {
+      const div = document.createElement("div");
+      div.classList.add("card-wind");
+      div.innerHTML = `${data}<span class="wind-unit">km/h</span>`
+      card.appendChild(div);
+      card.appendChild(cardIcon);
+      
+      const marginRemover = document.createElement("div")
+      marginRemover.style.marginBottom = "-15px";
+      card.appendChild(marginRemover);
+      break;
     }
   }
 

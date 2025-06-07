@@ -516,3 +516,13 @@ body {
   font-size: 0.9em;
 }
 
+.card-wind {
+  font-size: 3em;
+  font-weight: 600;
+  margin-top: 35px;
+}
+
+.wind-unit {
+  font-size: 0.4em;
+}
+
