@@ -490,4 +490,27 @@ body {
   margin: auto;
 }
 
+.uv {
+  font-size: 1.6em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -15px;
+}
+
+.uv-item {
+  padding: 0 0.175em;
+  opacity: 0.8
+}
+
+.uv-active {
+  font-weight: 600;
+  font-size: 1.2em;
+  opacity: 1;
+}
+
+.uv-side {
+  opacity: 0.5;
+  font-size: 0.9em;
+}
 
