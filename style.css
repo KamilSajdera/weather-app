@@ -526,3 +526,12 @@ body {
   font-size: 0.4em;
 }
 
+.sun-cycle {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 15px auto;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+

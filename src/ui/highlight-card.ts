@@ -12,7 +12,7 @@ function getCardIcon(target: HTMLDivElement, iconName: string) {
 
 export function createCard(
   name: string,
-  data: string,
+  data: any,
   iconFile?: string,
   iconWidth?: string
 ): HTMLDivElement {
@@ -27,6 +27,8 @@ export function createCard(
 
   card.appendChild(title);
 
+  const div = document.createElement("div");
+
   switch (name) {
     case "UV Index": {
       card.appendChild(cardIcon);
@@ -34,15 +36,22 @@ export function createCard(
       break;
     }
     case "Wind Status": {
-      const div = document.createElement("div");
       div.classList.add("card-wind");
-      div.innerHTML = `${data}<span class="wind-unit">km/h</span>`
+      div.innerHTML = `${data}<span class="wind-unit">km/h</span>`;
       card.appendChild(div);
       card.appendChild(cardIcon);
-      
-      const marginRemover = document.createElement("div")
+
+      const marginRemover = document.createElement("div");
       marginRemover.style.marginBottom = "-15px";
       card.appendChild(marginRemover);
+      break;
+    }
+    case "Sunrise & Sunset": {
+      card.appendChild(cardIcon);
+
+      div.classList.add("sun-cycle");
+      div.innerHTML = `<div>${data.sunrise}</div><div>${data.sunset}</div>`;
+      card.appendChild(div);
       break;
     }
   }
@@ -88,8 +97,8 @@ function renderUv(value: number) {
 
     if (item === value) span.classList.add("uv-active");
 
-    if(range.length === 5 && (index === 0 || index === 4))
-      span.classList.add("uv-side")
+    if (range.length === 5 && (index === 0 || index === 4))
+      span.classList.add("uv-side");
 
     rootElement.appendChild(span);
   });
