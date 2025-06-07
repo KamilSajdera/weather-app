@@ -9,7 +9,9 @@
     .forecast-next-days { padding-inline: 0; }
     .forecast-item { width: 31%; }
     .forecast-item img { width: 65%; }
-    
+
+    .current-weather-container h3 { text-align: left; }
+    .current-weather-item { width: 48%; margin-inline: 0; }   
 }
 
 @media screen and (min-width: 768px) {
@@ -21,6 +23,8 @@
     .sidebar-footer { width: 45%; }
 
     .forecast-item { width: 23%; }
+
+    .current-weather-item { width: 32%; }
 }
 
 @media screen and (min-width: 1024px) {
@@ -48,4 +52,6 @@
 
     .forecast-item { width: 15%; }
     .forecast-item img { width: 55%; }
+
+    .current-weather-item { width: 24%; }
 }
