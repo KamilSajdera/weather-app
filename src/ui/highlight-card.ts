@@ -12,7 +12,7 @@ function cartIcon(target: HTMLDivElement, iconName: string) {
 
 export function createCard(
   name: string,
-  content: string,
+  data: string,
   iconFile?: string,
   iconWidth?: string
 ): HTMLDivElement {
@@ -24,12 +24,22 @@ export function createCard(
 
   card.appendChild(title);
 
+  let content: string = "";
+  
+  switch (name) {
+    case "UV Index": {
+      content = `<div class='card-icon'></div>`;
+    }
+  }
+
   card.innerHTML += content;
 
   if (iconFile) cartIcon(card.querySelector(".card-icon")!, iconFile);
 
-  if(iconWidth) {
-    (card.querySelector(".card-icon")! as HTMLDivElement).style.width = `${iconWidth}%`
+  if (iconWidth) {
+    (
+      card.querySelector(".card-icon")! as HTMLDivElement
+    ).style.width = `${iconWidth}%`;
   }
 
   return card;

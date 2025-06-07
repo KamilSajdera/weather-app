@@ -454,6 +454,10 @@ body {
   padding: 5px;
 }
 
+/* ######################## */
+/* Today Highlights - Current Weather*/
+/* ######################## */
+
 .current-weather-container {
   margin-top: 40px;
   display: flex;
@@ -485,4 +489,5 @@ body {
   text-align: center;
   margin: auto;
 }
+
 
