@@ -476,8 +476,10 @@ body {
   justify-content: space-between;
   overflow-x: auto;
   overflow-y: hidden;
-  -webkit-overflow-scrolling: touch; 
-  -ms-overflow-style: -ms-autohiding-scrollbar; 
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;       
+  scrollbar-color: #bbb transparent; 
+  padding-bottom: 10px;
 }
 
 .current-weather-item {
