@@ -61,6 +61,15 @@ export function createCard(
       card.appendChild(div);
       break;
     }
+    case "Atmospheric pressure": {
+      cardIcon.style.marginTop = "25px";
+      cardIcon.style.marginBottom = "25px";
+      card.appendChild(cardIcon);
+
+      div.innerHTML = `<h4 class="humidity">${data}<span class="wind-unit">hPa</span></h4>`;
+      card.appendChild(div);
+      break;
+    }
   }
 
   if (iconFile) getCardIcon(card.querySelector(".card-icon")!, iconFile);
