@@ -460,9 +460,8 @@ body {
 
 .current-weather-container {
   margin-top: 40px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  width: 90%;
+  margin-inline: auto;
 }
 
 .current-weather-container h3 {
@@ -470,14 +469,34 @@ body {
   text-align: center;
 }
 
+.highlight-cards {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; 
+  -ms-overflow-style: -ms-autohiding-scrollbar; 
+}
+
 .current-weather-item {
   background: #fff;
-  width: 80%;
+  width: 100%;
   text-align: center;
-  margin-inline: auto;
+  margin-inline: 10px;
   margin-top: 15px;
   border-radius: 10px;
   padding: 10px 15px;
+  flex: 0 0 auto;
+}
+
+.current-weather-item:first-child {
+  margin-left: 0;
+}
+
+.current-weather-item:last-child {
+  margin-right: 0;
 }
 
 .current-weather-item h4 {
