@@ -54,6 +54,13 @@ export function createCard(
       card.appendChild(div);
       break;
     }
+    case "Humidity": {
+      card.appendChild(cardIcon);
+
+      div.innerHTML = `<h4 class="humidity">${data}%</h4>`;
+      card.appendChild(div);
+      break;
+    }
   }
 
   if (iconFile) getCardIcon(card.querySelector(".card-icon")!, iconFile);

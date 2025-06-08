@@ -2,8 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  scrollbar-width: thin; 
-  scrollbar-color: #aaa transparent; 
+  scrollbar-width: thin;
+  scrollbar-color: #aaa transparent;
 }
 
 ::-webkit-scrollbar {
@@ -12,11 +12,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent; 
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #aaa; 
+  background-color: #aaa;
   border-radius: 10px;
 }
 
@@ -25,7 +25,7 @@
 }
 
 ::-webkit-scrollbar-button {
-  display: none; 
+  display: none;
 }
 
 body {
@@ -502,7 +502,7 @@ body {
 
 .uv-item {
   padding: 0 0.175em;
-  opacity: 0.8
+  opacity: 0.8;
 }
 
 .uv-active {
@@ -535,3 +535,9 @@ body {
   font-weight: 500;
 }
 
+.humidity {
+  text-align: center !important;
+  margin-top: -10px;
+  color: #000 !important;
+  font-size: 2.5em;
+}
