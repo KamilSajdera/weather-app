@@ -1,4 +1,5 @@
 import lottie from "lottie-web";
+import type { HighlightCard } from "../types/main";
 
 function getCardIcon(target: HTMLDivElement, iconName: string) {
   lottie.loadAnimation({
@@ -10,12 +11,7 @@ function getCardIcon(target: HTMLDivElement, iconName: string) {
   });
 }
 
-export function createCard(
-  name: string,
-  data: any,
-  iconFile?: string,
-  iconWidth?: string
-): HTMLDivElement {
+export function createCard({ name, data, iconFile, iconSize}: HighlightCard): HTMLDivElement {
   const card = document.createElement("div");
   card.classList.add("current-weather-item");
 
@@ -74,10 +70,10 @@ export function createCard(
 
   if (iconFile) getCardIcon(card.querySelector(".card-icon")!, iconFile);
 
-  if (iconWidth) {
+  if (iconSize) {
     (
       card.querySelector(".card-icon")! as HTMLDivElement
-    ).style.width = `${iconWidth}%`;
+    ).style.width = `${iconSize}%`;
   }
 
   return card;
