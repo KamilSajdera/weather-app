@@ -45,8 +45,20 @@ export function createCard({ name, data, iconFile, iconSize}: HighlightCard): HT
     case "Sunrise & Sunset": {
       card.appendChild(cardIcon);
 
+      const formattedSunrise = new Date(data.sunrise).toLocaleTimeString("pl-PL", {
+        hourCycle: "h24",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      const formattedSunset = new Date(data.sunset).toLocaleTimeString("pl-PL", {
+        hourCycle: "h24",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
       div.classList.add("sun-cycle");
-      div.innerHTML = `<div>${data.sunrise}</div><div>${data.sunset}</div>`;
+      div.innerHTML = `<div>${formattedSunrise}</div><div>${formattedSunset}</div>`;
       card.appendChild(div);
       break;
     }
@@ -105,7 +117,7 @@ function renderUv(value: number) {
   range.forEach((item, index) => {
     let span = document.createElement("span");
     span.classList.add("uv-item");
-    span.textContent = `${item}`;
+    span.textContent = `${+item.toFixed(0)}`;
 
     if (item === value) span.classList.add("uv-active");
 
