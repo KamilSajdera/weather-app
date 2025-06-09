@@ -4,8 +4,9 @@ import { ForecastNextDays } from "./ui/render-forecast-nextdays";
 
 import type { WeatherResponse } from "./types/weather";
 import type { SidebarData } from "./types/sidebar";
-import type { MatchedNames } from "./types/main";
+import type { HighlightCard, MatchedNames } from "./types/main";
 import { fetchCities } from "./api/searchCitiesApi";
+import { createCard } from "./ui/highlight-card";
 
 let currentCityName: string = "Warszawa";
 
@@ -27,6 +28,8 @@ const searchCityInput: HTMLInputElement = document.getElementById(
 )! as HTMLInputElement;
 const searchCitiesContainer: HTMLDivElement =
   document.querySelector(".cities-container")!;
+const currentWeatherCards: HTMLDivElement =
+  document.querySelector(".highlight-cards")!;
 
 let forecastData = (await fetchWeather({
   latitude: 43.17,
@@ -254,3 +257,42 @@ function matchBestNames(
   };
 }
 
+let highlightData: HighlightCard[] = [
+  {
+    name: "UV Index",
+    data: forecastData.daily.uv_index_max[0],
+    iconFile: "uvindex.json",
+    iconSize: "75",
+  },
+  {
+    name: "Wind Status",
+    data: forecastData.current.wind_speed_10m,
+    iconFile: "wind.json",
+    iconSize: "55",
+  },
+  {
+    name: "Sunrise & Sunset",
+    data: {
+      sunrise: forecastData.daily.sunrise[0],
+      sunset: forecastData.daily.sunset[0],
+    },
+    iconFile: "sunrise.json",
+    iconSize: "85",
+  },
+  {
+    name: "Humidity",
+    data: forecastData.current.relative_humidity_2m,
+    iconFile: "humidity.json",
+    iconSize: "60",
+  },
+  {
+    name: "Atmospheric pressure",
+    data: forecastData.current.surface_pressure,
+    iconFile: "pressure.json",
+    iconSize: "45",
+  },
+];
+
+highlightData.forEach((item) =>
+  currentWeatherCards.appendChild(createCard(item))
+);
