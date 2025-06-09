@@ -43,8 +43,8 @@ function describePrecipitation(chance: number): string {
 
 let sidebarData: SidebarData = {
   city: currentCityName,
-  degrees: forecastData.current_weather.temperature,
-  weathercode: forecastData.current_weather.weathercode,
+  degrees: forecastData.current.temperature_2m,
+  weathercode: forecastData.current.weather_code,
   description: describePrecipitation(
     forecastData.daily.precipitation_probability_max[0]
   ),
@@ -155,8 +155,8 @@ async function getWeatherForUser(
 
     sidebarData = {
       city: currentCityName,
-      degrees: forecastData.current_weather.temperature,
-      weathercode: forecastData.current_weather.weathercode,
+      degrees: forecastData.current.temperature_2m,
+      weathercode: forecastData.current.weather_code,
       description: describePrecipitation(
         forecastData.daily.precipitation_probability_max[0]
       ),
@@ -253,3 +253,4 @@ function matchBestNames(
     captions,
   };
 }
+
