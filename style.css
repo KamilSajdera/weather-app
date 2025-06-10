@@ -135,6 +135,21 @@ body {
   font-weight: 400;
   font-style: normal;
   padding-bottom: 15px;
+  opacity: 0;
+  animation-name: sidebarMainShow;
+  animation-duration: 650ms;
+  animation-fill-mode: both;
+}
+
+@keyframes sidebarMainShow {
+  from {
+    opacity: 0;
+    transform: translateY(-35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .sidebar-image {
@@ -186,6 +201,21 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   margin-bottom: 15px;
+  opacity: 0;
+  animation-name: sidebarFooterShow;
+  animation-duration: 650ms;
+  animation-fill-mode: both;
+}
+
+@keyframes sidebarFooterShow {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .sidebar-footer p {
@@ -510,6 +540,20 @@ body {
 .current-weather-container h3 {
   width: 100%;
   text-align: center;
+  opacity: 0;
+  animation-name: cardsHeadShow;
+  animation-duration: 500ms;
+  animation-delay: 200ms;
+  animation-fill-mode: both;
+}
+
+@keyframes cardsHeadShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .highlight-cards {
@@ -564,7 +608,8 @@ body {
   from {
     opacity: 0;
     transform: scale(0);
-  } to {
+  }
+  to {
     opacity: 1;
     transform: scale(1);
   }
