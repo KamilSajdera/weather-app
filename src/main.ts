@@ -156,6 +156,15 @@ async function getWeatherForUser(
     forecastData = newData;
     currentCityName = locationName;
 
+    highlightData[0].data = forecastData.daily.uv_index_max[0];
+    highlightData[1].data = forecastData.current.wind_speed_10m;
+    (highlightData[2].data = {
+      sunrise: forecastData.daily.sunrise[0],
+      sunset: forecastData.daily.sunset[0],
+    }),
+      (highlightData[3].data = forecastData.current.relative_humidity_2m);
+    highlightData[4].data = forecastData.current.surface_pressure;
+
     sidebarData = {
       city: currentCityName,
       degrees: forecastData.current.temperature_2m,
@@ -167,11 +176,17 @@ async function getWeatherForUser(
       hourly_temp: forecastData.hourly.temperature,
     };
 
+    highlightData;
+
     sidebarTemplate.destroy();
     sidebarTemplate = new SidebarInput(sidebarData);
     sidebarTemplate.createTempsAxis();
 
     ForecastNextDays(forecastData.daily);
+    highlightData.forEach((item) =>
+      currentWeatherCards.appendChild(createCard(item))
+    );
+
     searchCitiesContainer.style.display = "none";
   } catch {}
 }
