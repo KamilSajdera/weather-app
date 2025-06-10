@@ -265,6 +265,10 @@ body {
   visibility: visible;
 }
 
+/* ######################## */
+/* Forecast for next days */
+/* ######################## */
+
 .forecast-next-days {
   width: 100%;
   padding: 5px 20px;
@@ -281,6 +285,45 @@ body {
   padding: 10px 5px;
   border-radius: 10px;
   margin-top: 15px;
+  opacity: 0;
+  animation-name: nextDaysForecast;
+  animation-duration: 350ms;
+  animation-fill-mode: both;
+}
+
+.forecast-item:nth-child(1) {
+  animation-delay: 50ms;
+}
+
+.forecast-item:nth-child(2) {
+  animation-delay: 200ms;
+}
+
+.forecast-item:nth-child(3) {
+  animation-delay: 350ms;
+}
+
+.forecast-item:nth-child(4) {
+  animation-delay: 500ms;
+}
+
+.forecast-item:nth-child(5) {
+  animation-delay: 650ms;
+}
+
+.forecast-item:nth-child(6) {
+  animation-delay: 800ms;
+}
+
+@keyframes nextDaysForecast {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .item-icon {
@@ -477,8 +520,8 @@ body {
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;       
-  scrollbar-color: #bbb transparent; 
+  scrollbar-width: thin;
+  scrollbar-color: #bbb transparent;
   padding-bottom: 10px;
 }
 
@@ -491,6 +534,40 @@ body {
   border-radius: 10px;
   padding: 10px 15px;
   flex: 0 0 auto;
+  opacity: 0;
+  animation-name: highlightCards;
+  animation-duration: 800ms;
+  animation-fill-mode: both;
+}
+
+.current-weather-item:nth-child(1) {
+  animation-delay: 50ms;
+}
+
+.current-weather-item:nth-child(2) {
+  animation-delay: 250ms;
+}
+
+.current-weather-item:nth-child(3) {
+  animation-delay: 450ms;
+}
+
+.current-weather-item:nth-child(4) {
+  animation-delay: 650ms;
+}
+
+.current-weather-item:nth-child(5) {
+  animation-delay: 850ms;
+}
+
+@keyframes highlightCards {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  } to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .current-weather-item:first-child {
