@@ -183,6 +183,8 @@ async function getWeatherForUser(
     sidebarTemplate.createTempsAxis();
 
     ForecastNextDays(forecastData.daily);
+
+    currentWeatherCards.innerHTML = "";
     highlightData.forEach((item) =>
       currentWeatherCards.appendChild(createCard(item))
     );
