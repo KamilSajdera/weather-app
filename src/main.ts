@@ -7,6 +7,7 @@ import type { SidebarData } from "./types/sidebar";
 import type { HighlightCard, MatchedNames } from "./types/main";
 import { fetchCities } from "./api/searchCitiesApi";
 import { createCard } from "./ui/highlight-card";
+import { getCurrentPosition } from "./api/getCurrentLocation";
 
 let currentCityName: string = "Warszawa";
 
@@ -30,6 +31,8 @@ const searchCitiesContainer: HTMLDivElement =
   document.querySelector(".cities-container")!;
 const currentWeatherCards: HTMLDivElement =
   document.querySelector(".highlight-cards")!;
+
+const trackUserBtn: HTMLDivElement = document.querySelector(".track-user")!;
 
 let forecastData = (await fetchWeather({
   latitude: 43.17,
@@ -313,3 +316,19 @@ let highlightData: HighlightCard[] = [
 highlightData.forEach((item) =>
   currentWeatherCards.appendChild(createCard(item))
 );
+
+trackUserBtn.addEventListener("click", () => {
+  let geo: Geolocation = navigator.geolocation;
+
+  if (geo) {
+    geo.getCurrentPosition(async (location) => {
+      const { longitude } = location.coords;
+      const { latitude } = location.coords;
+
+      const usersCityName = await getCurrentPosition(longitude, latitude);
+
+      currentCityName = usersCityName.geonames[0]?.name;
+      getWeatherForUser(latitude, longitude, currentCityName);
+    });
+  }
+});
