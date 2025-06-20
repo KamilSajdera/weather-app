@@ -10,7 +10,9 @@ import { createCard } from "./ui/highlight-card";
 import { getCurrentPosition } from "./api/getCurrentLocation";
 import { startLoader, stopLoader } from "./ui/loader-global";
 
-let currentCityName: string = "Warszawa";
+let currentCityName: string = localStorage.getItem("currentCity") || "Warszawa";
+let currentLatitude: number = +localStorage.getItem("currentLat")! || 52.237049;
+let currentLongitude: number = +localStorage.getItem("currentLng")! ||21.017532;
 
 let settingDescriptions: string[] = [
   "Set the temperature unit to Celsius",
@@ -20,7 +22,7 @@ let settingDescriptions: string[] = [
 ];
 
 const settingsMenu: HTMLDivElement = document.querySelector(".main-settings")!;
-const settingItem: NodeListOf<HTMLDivElement> =
+const settingsItems: NodeListOf<HTMLDivElement> =
   settingsMenu.querySelectorAll(".settings-item");
 const settigsPrompt: HTMLDivElement =
   document.querySelector(".settings-tooltip")!;
@@ -36,8 +38,8 @@ const currentWeatherCards: HTMLDivElement =
 const trackUserBtn: HTMLDivElement = document.querySelector(".track-user")!;
 
 let forecastData = (await fetchWeather({
-  latitude: 43.17,
-  longitude: 31.0,
+  latitude: currentLatitude,
+  longitude: currentLongitude,
   tempUnit: "celsius",
 })) as WeatherResponse;
 
@@ -68,11 +70,23 @@ window.addEventListener("resize", () => {
   sidebarTemplate.createTempsAxis();
 });
 
-settingItem.forEach((item, i) => {
+settingsItems.forEach((item, i) => {
   item.addEventListener("mouseover", () => {
     settigsPrompt.textContent = settingDescriptions[i];
   });
+
+  switch(i) {
+    case 3: {
+      item.addEventListener("click", saveToStorage);
+    }
+  }
 });
+
+function saveToStorage():void {
+  localStorage.setItem("currentLng", `${currentLongitude}`);
+  localStorage.setItem("currentLat", `${currentLatitude}`);
+  localStorage.setItem("currentCity", `${currentCityName}`);
+}
 
 function defer<T extends (...args: any[]) => void>(fn: T, delay: number) {
   let timeoutId: ReturnType<typeof setTimeout>;
@@ -163,6 +177,8 @@ async function getWeatherForUser(
 
     forecastData = newData;
     currentCityName = locationName;
+    currentLatitude = lat;
+    currentLongitude = lng;
 
     highlightData[0].data = forecastData.daily.uv_index_max[0];
     highlightData[1].data = forecastData.current.wind_speed_10m;
@@ -184,7 +200,7 @@ async function getWeatherForUser(
       hourly_temp: forecastData.hourly.temperature,
     };
 
-    highlightData;
+
 
     sidebarTemplate.destroy();
     sidebarTemplate = new SidebarInput(sidebarData);
