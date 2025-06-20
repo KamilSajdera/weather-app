@@ -8,6 +8,7 @@ import type { HighlightCard, MatchedNames } from "./types/main";
 import { fetchCities } from "./api/searchCitiesApi";
 import { createCard } from "./ui/highlight-card";
 import { getCurrentPosition } from "./api/getCurrentLocation";
+import { startLoader, stopLoader } from "./ui/loader-global";
 
 let currentCityName: string = "Warszawa";
 
@@ -325,6 +326,7 @@ trackUserBtn.addEventListener("click", () => {
   let geo: Geolocation = navigator.geolocation;
 
   if (geo) {
+    startLoader();
     geo.getCurrentPosition(async (location) => {
       const { longitude } = location.coords;
       const { latitude } = location.coords;
@@ -333,6 +335,7 @@ trackUserBtn.addEventListener("click", () => {
 
       currentCityName = usersCityName.geonames[0]?.name;
       getWeatherForUser(latitude, longitude, currentCityName);
+      stopLoader();
     });
   }
 });
