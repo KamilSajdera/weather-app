@@ -109,7 +109,11 @@ searchCityInput.addEventListener(
 
     const data = await fetchCities(inputValue, loadingIndicator);
 
-    if (!data || data.total_results <= 0) {
+    if (!data) {
+      return;
+    }
+
+    if (data.total_results <= 0) {
       if (!searchCitiesContainer.innerHTML.includes("no-results"))
         searchCitiesContainer.appendChild(p);
 
