@@ -9,10 +9,12 @@ import { fetchCities } from "./api/searchCitiesApi";
 import { createCard } from "./ui/highlight-card";
 import { getCurrentPosition } from "./api/getCurrentLocation";
 import { startLoader, stopLoader } from "./ui/loader-global";
+import { printInfo } from "./ui/info-message";
 
 let currentCityName: string = localStorage.getItem("currentCity") || "Warszawa";
 let currentLatitude: number = +localStorage.getItem("currentLat")! || 52.237049;
-let currentLongitude: number = +localStorage.getItem("currentLng")! ||21.017532;
+let currentLongitude: number =
+  +localStorage.getItem("currentLng")! || 21.017532;
 
 let settingDescriptions: string[] = [
   "Set the temperature unit to Celsius",
@@ -75,17 +77,24 @@ settingsItems.forEach((item, i) => {
     settigsPrompt.textContent = settingDescriptions[i];
   });
 
-  switch(i) {
+  switch (i) {
     case 3: {
       item.addEventListener("click", saveToStorage);
     }
   }
 });
 
-function saveToStorage():void {
-  localStorage.setItem("currentLng", `${currentLongitude}`);
-  localStorage.setItem("currentLat", `${currentLatitude}`);
-  localStorage.setItem("currentCity", `${currentCityName}`);
+function saveToStorage(): void {
+  try {
+    localStorage.setItem("currentLng", `${currentLongitude}`);
+    localStorage.setItem("currentLat", `${currentLatitude}`);
+    localStorage.setItem("currentCity", `${currentCityName}`);
+    printInfo("success", `Location ${"`"}${currentCityName}${"`"} saved successfully!`, 4000)
+  } catch (error) {
+    printInfo("fail", "Sorry, for some reason we couldn't save your location.")
+    console.warn("Error saving localstorage!", error)
+  }
+
 }
 
 function defer<T extends (...args: any[]) => void>(fn: T, delay: number) {
@@ -199,8 +208,6 @@ async function getWeatherForUser(
       chanceOfRain: forecastData.daily.precipitation_probability_max[0],
       hourly_temp: forecastData.hourly.temperature,
     };
-
-
 
     sidebarTemplate.destroy();
     sidebarTemplate = new SidebarInput(sidebarData);
