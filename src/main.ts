@@ -146,7 +146,6 @@ function defer<T extends (...args: any[]) => void>(fn: T, delay: number) {
 searchCityInput.addEventListener(
   "input",
   defer(async (event) => {
-    let index = 0;
     const { value: inputValue } = event.target as HTMLInputElement;
     const loadingIndicator: HTMLDivElement =
       searchCitiesContainer.querySelector(".loading-cities")!;
@@ -181,7 +180,7 @@ searchCityInput.addEventListener(
       return;
     }
 
-    data.results.forEach((item) => {
+    data.results.forEach((item, index) => {
       const names = matchBestNames(item.components, item.formatted);
 
       const { geometry } = item;
