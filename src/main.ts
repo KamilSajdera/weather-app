@@ -5,6 +5,7 @@ import { ForecastNextDays } from "./ui/render-forecast-nextdays";
 import type { WeatherResponse } from "./types/weather";
 import type { SidebarData } from "./types/sidebar";
 import type { HighlightCard, MatchedNames } from "./types/main";
+
 import { fetchCities } from "./api/searchCitiesApi";
 import { createCard } from "./ui/highlight-card";
 import { getCurrentPosition } from "./api/getCurrentLocation";
@@ -23,6 +24,9 @@ let settingDescriptions: string[] = [
   "Save current location as default",
 ];
 
+let theme: "dark" | "light" =
+  (localStorage.getItem("theme") as "dark" | "light") || "light";
+
 const settingsMenu: HTMLDivElement = document.querySelector(".main-settings")!;
 const settingsItems: NodeListOf<HTMLDivElement> =
   settingsMenu.querySelectorAll(".settings-item");
@@ -38,6 +42,8 @@ const currentWeatherCards: HTMLDivElement =
   document.querySelector(".highlight-cards")!;
 
 const trackUserBtn: HTMLDivElement = document.querySelector(".track-user")!;
+
+setTheme("load");
 
 let forecastData = (await fetchWeather({
   latitude: currentLatitude,
@@ -78,23 +84,54 @@ settingsItems.forEach((item, i) => {
   });
 
   switch (i) {
+    case 2: {
+      item.addEventListener("click", () => setTheme("toggle"));
+      break;
+    }
     case 3: {
       item.addEventListener("click", saveToStorage);
+      break;
     }
   }
 });
+
+function setTheme(type: "load" | "toggle") {
+  if (type === "toggle") {
+    theme === "dark" ? (theme = "light") : (theme = "dark");
+    localStorage.setItem("theme", theme);
+  }
+
+  switch (theme) {
+    case "light": {
+      document.querySelector(".app")!.classList.remove("dark");
+      document.body.style.background = "#f3f4f6";
+      document.body.style.color = "#161616";
+
+      break;
+    }
+    case "dark": {
+      document.querySelector(".app")!.classList.add("dark");
+      document.body.style.background = "#191919";
+      document.body.style.color = "#f1f1f1";
+      break;
+    }
+  }
+}
 
 function saveToStorage(): void {
   try {
     localStorage.setItem("currentLng", `${currentLongitude}`);
     localStorage.setItem("currentLat", `${currentLatitude}`);
     localStorage.setItem("currentCity", `${currentCityName}`);
-    printInfo("success", `Location ${"`"}${currentCityName}${"`"} saved successfully!`, 4000)
+    printInfo(
+      "success",
+      `Location ${"`"}${currentCityName}${"`"} saved successfully!`,
+      4000
+    );
   } catch (error) {
-    printInfo("fail", "Sorry, for some reason we couldn't save your location.")
-    console.warn("Error saving localstorage!", error)
+    printInfo("fail", "Sorry, for some reason we couldn't save your location.");
+    console.warn("Error saving localstorage!", error);
   }
-
 }
 
 function defer<T extends (...args: any[]) => void>(fn: T, delay: number) {
