@@ -121,6 +121,73 @@ body {
   flex-wrap: wrap;
 }
 
+.app.dark .sidebar-city-info {
+  background: #212121;
+}
+
+.app.dark .input-box {
+  background: #161616;
+  color: #c3c2c2;
+}
+
+.app.dark #searching-town {
+  color: #e9e8e8;
+}
+
+.app.dark .track-user {
+  background: #161616;
+  box-shadow: rgb(69, 69, 69) 0px 0px 9px 3px;
+  color: #c3c2c2;
+}
+
+.app.dark .sidebar-main {
+  border-bottom: 1px solid #454545;
+}
+
+.app.dark .cities-container {
+  background: #161616;
+}
+
+.app.dark .city-item {
+  border-bottom: 1px solid #454545;
+}
+
+.app.dark .city-item:hover {
+  background: #222222;
+}
+
+.app.dark .city-item-region {
+  color: #9f9f9f;
+}
+
+.app.dark .forecast-item {
+  background: #212121;
+}
+
+.app.dark .temp-night {
+  color: #8f8f8f;
+}
+
+.app.dark .main-settings {
+  background: #2b2b2b;
+}
+
+.app.dark .settings-item {
+  box-shadow: 2px 2px 0px 1px #424242;
+}
+
+.app.dark .settings-item:hover {
+  background: #424242;
+}
+
+.app.dark .current-weather-item {
+  background: #212121;
+}
+
+.app.dark .current-weather-item h4 {
+  color: #cfcece!important;
+}
+
 .sidebar-city-info {
   width: 100%;
   background: #fff;
