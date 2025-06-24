@@ -149,7 +149,7 @@ body {
 }
 
 .app.dark .city-item {
-  border-bottom: 1px solid #454545;
+  border-bottom: 1px solid #28272a;
 }
 
 .app.dark .city-item:hover {
@@ -185,7 +185,7 @@ body {
 }
 
 .app.dark .current-weather-item h4 {
-  color: #cfcece!important;
+  color: #cfcece !important;
 }
 
 .sidebar-city-info {
@@ -608,36 +608,42 @@ body {
 .cities-container h4 {
   font-size: 0.94em;
   font-weight: 500;
-  margin-bottom: -5px;
 }
 
 .city-item {
   border-bottom: 1px solid #dadada;
-  padding: 5px 10px;
+  padding: 10px;
   position: relative;
   cursor: pointer;
   transition: background 100ms ease-in-out;
 }
 
 .city-item:last-child {
-  border: none;
+  border: none !important;
 }
 
 .city-item:hover {
   background: #e4e4e4;
+  border-radius: 5px;
 }
 
 .city-item-region {
-  font-size: 0.8em;
+  font-size: 0.82em;
   color: #4d4d4d;
+  margin-top: -3px;
+  display: block;
 }
 
 .city-item-flag {
-  width: 25px;
+  width: 20px;
   position: absolute;
   right: 10px;
-  top: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
   box-shadow: 0px 0px 10px -2px #3e3e3e;
+  aspect-ratio: 1;
+  object-fit: cover;
 }
 
 .loading-cities {
