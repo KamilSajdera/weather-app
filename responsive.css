@@ -63,3 +63,7 @@
 
     .current-weather-item { width: 24%; }
 }
+
+@media screen and (min-width: 1920px) {
+    .rainfall-item { width: 8%; }
+}
