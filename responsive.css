@@ -28,7 +28,8 @@
     .forecast-item { width: 23%; }
 
     .current-weather-item { width: 32%; }
-
+    
+    .rainfall-section { padding-inline: 0; }
     .rainfall-item { width: 13%; }
 }
 
