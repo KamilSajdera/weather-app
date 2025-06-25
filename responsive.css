@@ -13,6 +13,8 @@
     .current-weather-container { width: 100%; }
     .current-weather-container h3 { text-align: left; }
     .current-weather-item { width: 48%; }   
+
+    .rainfall-item { width: 20%; }
 }
 
 @media screen and (min-width: 768px) {
@@ -26,6 +28,8 @@
     .forecast-item { width: 23%; }
 
     .current-weather-item { width: 32%; }
+
+    .rainfall-item { width: 13%; }
 }
 
 @media screen and (min-width: 1024px) {
@@ -44,6 +48,8 @@
     .forecast-item { width: 16%; }
     .sidebar-city-info { width: 30%; }
     .main-content { width: 70%; }
+
+    .rainfall-item { width: 10%; }
 }
 
 @media screen and (min-width: 1500px) {

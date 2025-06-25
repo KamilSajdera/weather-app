@@ -856,6 +856,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .rainfall-scope-choice {
@@ -890,4 +891,57 @@ body {
 
 .rainfall-scope-options li:hover {
   background: #c1c1c1;
+}
+
+.rainfall-items {
+  height: 300px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-content: center;
+  border-left: 2px solid #e4e4e4;
+  border-bottom: 2px solid #e4e4e4;
+  overflow: auto;
+  padding-bottom: 8px;
+}
+
+.rainfall-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-end;
+  position: relative;
+  width: 25%;
+  flex: 0 0 auto;
+  border-right: 1px solid #e4e3e3;
+}
+
+.rainfall-amount {
+  font-weight: 500;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
+}
+
+.rainfall-amount i {
+  color: #4c99dc;
+}
+
+.rainfall-column {
+  width: 40%;
+  background: #4c99dc;
+  margin: auto;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.rainfall-moment {
+  width: 100%;
+  text-align: center;
+  padding-top: 8px;
+  font-size: 1.1em;
+  font-weight: 500;
 }
