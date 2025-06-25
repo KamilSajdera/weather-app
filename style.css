@@ -937,6 +937,7 @@ body {
   margin: auto;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  max-height: 80%;
 }
 
 .rainfall-moment {
