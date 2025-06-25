@@ -11,6 +11,7 @@ import { createCard } from "./ui/highlight-card";
 import { getCurrentPosition } from "./api/getCurrentLocation";
 import { startLoader, stopLoader } from "./ui/loader-global";
 import { printInfo } from "./ui/info-message";
+import { createRainfallItems } from "./ui/rainfall-chart";
 
 let currentCityName: string = localStorage.getItem("currentCity") || "Warszawa";
 let currentLatitude: number = +localStorage.getItem("currentLat")! || 52.237049;
@@ -77,6 +78,8 @@ ForecastNextDays(forecastData.daily);
 window.addEventListener("resize", () => {
   sidebarTemplate.createTempsAxis();
 });
+
+createRainfallItems(forecastData.hourly.rain, forecastData.daily.rain_sum);
 
 settingsItems.forEach((item, i) => {
   item.addEventListener("mouseover", () => {
@@ -255,6 +258,8 @@ async function getWeatherForUser(
     highlightData.forEach((item) =>
       currentWeatherCards.appendChild(createCard(item))
     );
+
+    createRainfallItems(forecastData.hourly.rain, forecastData.daily.rain_sum);
 
     searchCitiesContainer.style.display = "none";
   } catch {}
