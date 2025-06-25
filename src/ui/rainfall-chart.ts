@@ -9,17 +9,25 @@ const rangeChoice: HTMLDivElement = document.querySelector(
 const rangeOptions: HTMLUListElement = document.querySelector(
   ".rainfall-scope-options"
 )!;
-
+const rangeText: HTMLSpanElement = document.querySelector(
+  "#rainfall-scope-text"
+)!;
 let storedHourlyRainfall: number[];
 let storedDailyRainfall: number[];
 
 export function createRainfallItems(
   hourlyRainfall: number[],
-  dailyRainfall: number[]
+  dailyRainfall: number[],
+  setToDefaultValue: boolean
 ) {
   items.innerHTML = "";
   storedDailyRainfall = dailyRainfall;
   storedHourlyRainfall = hourlyRainfall;
+
+  if (setToDefaultValue) {
+    range = "hourly";
+    rangeText.textContent = "Hourly";
+  }
 
   const rainfall: number[] =
     range === "daily" ? dailyRainfall : hourlyRainfall.slice(0, 24);
@@ -75,9 +83,8 @@ rangeOptions.querySelectorAll("li").forEach((item) => {
     if (item.textContent?.toLowerCase() !== range) {
       range = item.textContent?.toLowerCase() as Range;
       rangeOptions.style.display = "none";
-      document.querySelector("#rainfall-scope-text")!.textContent =
-        item.textContent;
-      createRainfallItems(storedHourlyRainfall, storedDailyRainfall);
+      rangeText.textContent = item.textContent;
+      createRainfallItems(storedHourlyRainfall, storedDailyRainfall, false);
     }
   });
 });

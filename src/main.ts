@@ -79,7 +79,7 @@ window.addEventListener("resize", () => {
   sidebarTemplate.createTempsAxis();
 });
 
-createRainfallItems(forecastData.hourly.rain, forecastData.daily.rain_sum);
+createRainfallItems(forecastData.hourly.rain, forecastData.daily.rain_sum, false);
 
 settingsItems.forEach((item, i) => {
   item.addEventListener("mouseover", () => {
@@ -259,7 +259,7 @@ async function getWeatherForUser(
       currentWeatherCards.appendChild(createCard(item))
     );
 
-    createRainfallItems(forecastData.hourly.rain, forecastData.daily.rain_sum);
+    createRainfallItems(forecastData.hourly.rain, forecastData.daily.rain_sum, true);
 
     searchCitiesContainer.style.display = "none";
   } catch {}
