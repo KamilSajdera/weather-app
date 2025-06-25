@@ -10,11 +10,16 @@ const rangeOptions: HTMLUListElement = document.querySelector(
   ".rainfall-scope-options"
 )!;
 
+let storedHourlyRainfall: number[];
+let storedDailyRainfall: number[];
+
 export function createRainfallItems(
   hourlyRainfall: number[],
   dailyRainfall: number[]
 ) {
   items.innerHTML = "";
+  storedDailyRainfall = dailyRainfall;
+  storedHourlyRainfall = hourlyRainfall;
 
   const rainfall: number[] =
     range === "daily" ? dailyRainfall : hourlyRainfall.slice(0, 24);
@@ -72,6 +77,7 @@ rangeOptions.querySelectorAll("li").forEach((item) => {
       rangeOptions.style.display = "none";
       document.querySelector("#rainfall-scope-text")!.textContent =
         item.textContent;
+      createRainfallItems(storedHourlyRainfall, storedDailyRainfall);
     }
   });
 });
