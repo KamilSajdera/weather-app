@@ -1,6 +1,14 @@
-let range: "daily" | "hourly" = "hourly";
+type Range = "daily" | "hourly";
+
+let range: Range = "hourly";
 
 const items: HTMLDivElement = document.querySelector(".rainfall-items")!;
+const rangeChoice: HTMLDivElement = document.querySelector(
+  ".rainfall-scope-choice"
+)!;
+const rangeOptions: HTMLUListElement = document.querySelector(
+  ".rainfall-scope-options"
+)!;
 
 export function createRainfallItems(
   hourlyRainfall: number[],
@@ -54,3 +62,20 @@ function calculateHeight(value: number, max: number) {
   else if (max >= 2 && max < 10) return (percentDiff / 6) * 100;
   else return (percentDiff / 1.5) * 100;
 }
+
+rangeOptions.querySelectorAll("li").forEach((item) => {
+  item.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    if (item.textContent?.toLowerCase() !== range) {
+      range = item.textContent?.toLowerCase() as Range;
+      rangeOptions.style.display = "none";
+      document.querySelector("#rainfall-scope-text")!.textContent =
+        item.textContent;
+    }
+  });
+});
+
+rangeChoice.addEventListener("click", () => {
+  rangeOptions.style.display = "block";
+});
