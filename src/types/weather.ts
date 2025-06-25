@@ -24,5 +24,6 @@ export interface WeatherResponse {
   };
   hourly: {
     temperature: number[];
+    rain: number[];
   }
 }
