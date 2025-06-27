@@ -1,4 +1,4 @@
-import lottie from "lottie-web";
+import lottie from 'lottie-web/build/player/lottie_svg';
 import type { HighlightCard } from "../types/main";
 
 function getCardIcon(target: HTMLDivElement, iconName: string) {

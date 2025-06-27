@@ -1,4 +1,4 @@
-import lottie from "lottie-web";
+import lottie from 'lottie-web/build/player/lottie_svg';
 import { type SidebarData } from "../types/sidebar";
 import { GenerateIcon } from "./generate-weather-icon";
 

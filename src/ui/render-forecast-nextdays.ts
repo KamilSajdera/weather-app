@@ -1,4 +1,4 @@
-import lottie from "lottie-web";
+import lottie from 'lottie-web/build/player/lottie_svg';
 import { GenerateIcon } from "./generate-weather-icon";
 
 const closestForecastContainer: HTMLDivElement = document.querySelector(
