@@ -1,8 +1,19 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/weather-app/",
+  base: '/weather-app/',
   build: {
-    target: "esnext",
+    target: 'esnext',
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    },
+    commonjsOptions: {
+      transformMixedEsModules: true
+    }
   },
-});
+  optimizeDeps: {
+    exclude: ['lottie-web']
+  }
+})
