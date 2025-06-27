@@ -188,6 +188,31 @@ body {
   color: #cfcece !important;
 }
 
+.app.dark .rainfall-header {
+  background: #2b2b2b;
+}
+
+.app.dark .rainfall-scope-choice {
+  background: #1c1c1c;
+}
+
+.app.dark .rainfall-scope-options {
+  background: #1c1c1c;
+  border-color: #2b2b2b;
+}
+
+.app.dark .rainfall-scope-options li:hover {
+  background: #333333;
+}
+
+.app.dark .rainfall-items {
+  border-color: #2b2b2b;
+}
+
+.app.dark .rainfall-item {
+  border-color: #2b2b2b;
+}
+
 .sidebar-city-info {
   width: 100%;
   background: #fff;
