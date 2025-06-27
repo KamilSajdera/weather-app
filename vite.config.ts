@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite";
 
 export default defineConfig({
+  base: "/weather-app/",
   build: {
-    target: 'esnext'
-  }
-})
+    target: "esnext",
+  },
+});
